@@ -10,7 +10,7 @@
     "phoenix_html": "file:../deps/phoenix_html"
   },
   "devDependencies": {
-    "babel-brunch": "6.1.1",
+    "babel-brunch": "github:babel/babel-brunch#c42c598076dcdd44f5dbe3c310f78e06e992c6e1",
     "brunch": "2.10.9",
     "clean-css-brunch": "2.10.0",
     "uglify-js-brunch": "2.10.0"
