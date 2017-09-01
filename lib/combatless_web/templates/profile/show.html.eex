@@ -1,0 +1,38 @@
+<h2>Show Account</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @account.name %>
+  </li>
+
+  <li>
+    <strong>Old name:</strong>
+    <%= @account.old_name %>
+  </li>
+
+  <li>
+    <strong>Is abandoned:</strong>
+    <%= @account.is_abandoned %>
+  </li>
+
+  <li>
+    <strong>Is on hiscores:</strong>
+    <%= @account.is_on_hiscores %>
+  </li>
+
+  <li>
+    <strong>Is combatless:</strong>
+    <%= @account.is_combatless %>
+  </li>
+
+  <li>
+    <strong>Settings:</strong>
+    <%= @account.settings %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: profile_path(@conn, :edit, @account) %></span>
+<span><%= link "Back", to: profile_path(@conn, :index) %></span>
