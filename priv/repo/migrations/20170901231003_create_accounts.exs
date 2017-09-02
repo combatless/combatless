@@ -13,5 +13,7 @@ defmodule Combatless.Repo.Migrations.CreateAccounts do
       timestamps()
     end
 
+    create index(:accounts, [:is_combatless])
+    create unique_index(:accounts, [:name, :is_combatless])
   end
 end
