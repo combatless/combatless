@@ -1,0 +1,23 @@
+<h2>Show Datapoint</h2>
+
+<ul>
+
+  <li>
+    <strong>Fetched at:</strong>
+    <%= @datapoint.fetched_at %>
+  </li>
+
+  <li>
+    <strong>Is valid:</strong>
+    <%= @datapoint.is_valid %>
+  </li>
+
+  <li>
+    <strong>Ehp version:</strong>
+    <%= @datapoint.ehp_version %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: datapoint_path(@conn, :edit, @datapoint) %></span>
+<span><%= link "Back", to: datapoint_path(@conn, :index) %></span>

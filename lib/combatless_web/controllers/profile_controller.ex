@@ -3,58 +3,82 @@ defmodule CombatlessWeb.ProfileController do
 
   alias Combatless.Accounts
   alias Combatless.Accounts.Account
+  alias Combatless.Datapoints
+
+  def index(conn, %{"name" => name}) do
+    username = Accounts.format_account_name(name)
+    redirect(conn, to: profile_path(conn, :show, username))
+  end
 
   def index(conn, _params) do
-    accounts = Accounts.list_accounts()
-    render(conn, "index.html", accounts: accounts)
+    render(conn, "index.html")
   end
 
-  def new(conn, _params) do
-    changeset = Accounts.change_account(%Account{})
-    render(conn, "new.html", changeset: changeset)
-  end
 
-  def create(conn, %{"account" => account_params}) do
-    case Accounts.create_account(account_params) do
-      {:ok, account} ->
+
+  def create(conn, %{"name" => name}) do
+    with {:ok, %Account{} = account} <- Accounts.create_account(%{name: name}),
+         {:ok, _datapoint} <- Accounts.create_account_datapoint(account),
+         {:ok, %Account{} = account} <- Accounts.activate_account(account) do
+      conn
+      |> put_flash(:info, "Account created successfully.")
+      |> redirect(to: profile_path(conn, :show, account.name))
+    else
+      {:error, :not_combatless} ->
         conn
-        |> put_flash(:info, "Account created successfully.")
-        |> redirect(to: profile_path(conn, :show, account))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        |> put_flash(:error, "lmao you're not even level 3")
+        |> redirect(to: profile_path(conn, :show, Accounts.format_account_name(name)))
+      {:error, :cooldown_active} ->
+        conn
+        |> put_flash(:error, "Updating is still on a 30 second cooldown.")
+        |> redirect(to: profile_path(conn, :show, Accounts.format_account_name(name)))
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    account = Accounts.get_account!(id)
-    render(conn, "show.html", account: account)
+  def update(conn, %{"name" => name}) do
+    name
+    |> Accounts.format_account_name()
+    |> Accounts.get_active_account()
+    |> case do
+         nil -> redirect(conn, to: profile_path(conn, :show, name))
+         %Account{} = account ->
+           with {:ok, _datapoint} <- Accounts.create_account_datapoint(account) do
+             conn
+             |> put_flash(:info, "Account updated successfully.")
+             |> redirect(to: profile_path(conn, :show, account.name))
+           else
+             {:error, :not_combatless} ->
+               conn
+               |> put_flash(:error, "lmao you're not even level 3")
+               |> redirect(to: profile_path(conn, :show, Accounts.format_account_name(name)))
+             {:error, :cooldown_active} ->
+               conn
+               |> put_flash(:error, "Updating is still on a 30 second cooldown.")
+               |> redirect(to: profile_path(conn, :show, Accounts.format_account_name(name)))
+           end
+       end
   end
 
-  def edit(conn, %{"id" => id}) do
-    account = Accounts.get_account!(id)
-    changeset = Accounts.change_account(account)
-    render(conn, "edit.html", account: account, changeset: changeset)
+  def show(conn, %{"name" => name, "period" => "week"}), do: show(conn, period: :week, name: name)
+  def show(conn, %{"name" => name, "period" => "month"}), do: show(conn, period: :month, name: name)
+  def show(conn, %{"name" => name, "period" => "year"}), do: show(conn, period: :year, name: name)
+  def show(conn, %{"name" => name, "period" => "all"}), do: show(conn, period: :all, name: name)
+  def show(conn, %{"name" => name}), do: show(conn, period: :week, name: name)
+  def show(conn, opts) do
+    opts[:name]
+    |> Accounts.format_account_name()
+    |> Accounts.get_active_account()
+    |> case do
+         nil ->
+           new(conn, opts[:name])
+         %Account{} = account ->
+           profile = Accounts.get_account_profile(account, opts[:period])
+           IO.inspect(profile)
+           render(conn, "show.html", profile: profile)
+       end
   end
 
-  def update(conn, %{"id" => id, "account" => account_params}) do
-    account = Accounts.get_account!(id)
-
-    case Accounts.update_account(account, account_params) do
-      {:ok, account} ->
-        conn
-        |> put_flash(:info, "Account updated successfully.")
-        |> redirect(to: profile_path(conn, :show, account))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", account: account, changeset: changeset)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    account = Accounts.get_account!(id)
-    {:ok, _account} = Accounts.delete_account(account)
-
-    conn
-    |> put_flash(:info, "Account deleted successfully.")
-    |> redirect(to: profile_path(conn, :index))
+  def new(conn, name) do
+    render(conn, "new.html", changeset: Accounts.new_account_changeset(name))
   end
 end

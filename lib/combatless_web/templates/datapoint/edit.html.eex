@@ -1,0 +1,5 @@
+<h2>Edit Datapoint</h2>
+
+<%= render "form.html", Map.put(assigns, :action, datapoint_path(@conn, :update, @datapoint)) %>
+
+<span><%= link "Back", to: datapoint_path(@conn, :index) %></span>

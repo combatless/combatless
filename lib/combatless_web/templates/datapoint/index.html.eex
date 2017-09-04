@@ -1,0 +1,30 @@
+<h2>Listing Datapoints</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Fetched at</th>
+      <th>Is valid</th>
+      <th>Ehp version</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for datapoint <- @datapoints do %>
+    <tr>
+      <td><%= datapoint.fetched_at %></td>
+      <td><%= datapoint.is_valid %></td>
+      <td><%= datapoint.ehp_version %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: datapoint_path(@conn, :show, datapoint), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: datapoint_path(@conn, :edit, datapoint), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: datapoint_path(@conn, :delete, datapoint), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Datapoint", to: datapoint_path(@conn, :new) %></span>

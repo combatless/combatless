@@ -1,5 +1,15 @@
-<h2>New Account</h2>
-
-<%= render "form.html", Map.put(assigns, :action, profile_path(@conn, :create)) %>
-
-<span><%= link "Back", to: profile_path(@conn, :index) %></span>
+<%= if Enum.empty? @changeset.errors do %>
+<div class="text-center newcomer">
+	<h2 class='account-name<%= unless @changeset.valid?, do: " alert" %>'>
+		<%= printable_account_name @changeset.changes.name %>
+	</h2>
+	<a class="button update-button" href='<%= profile_path(@conn, :create, @changeset.changes.name) %>'>Become a loser</a>
+</div>
+<% else %>
+<div class="callout alert small invalid-name">
+	<h3>You Fool</h3>
+	<%= for {_, error} <- @changeset.errors do %>
+	<p><%= "#{printable_account_name @changeset.changes.name} #{translate_error error}." %></p>
+	<% end %>
+</div>
+<% end %>

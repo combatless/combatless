@@ -8,7 +8,7 @@ defmodule Combatless.Repo.Migrations.CreateAccounts do
       add :is_abandoned, :boolean, default: false, null: false
       add :is_on_hiscores, :boolean, default: false, null: false
       add :is_combatless, :boolean, default: false, null: false
-      add :settings, :map
+      add :settings, :map, default: %{}, null: false
 
       timestamps()
     end

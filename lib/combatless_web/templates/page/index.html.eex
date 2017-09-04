@@ -1,36 +1,16 @@
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
-</div>
-
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="https://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
-  </div>
+<div class="welcome">
+	<p>I'll put up more functionality as the foundation under each feature gets finished,
+		I just wanted to have the server set up.</p>
+	<h3>Contact</h3>
+	<p>Poke me in discord if you're in the level 3, discord.
+		Otherwise yell at me on twitter (<a href="https://twitter.com/buttwize">@buttwize</a>) or bully me in game.
+		rsn: bitwise</p>
+	<h3>Things I Appreciate</h3>
+	<ul>
+		<li>feedback</li>
+		<li>bug reports</li>
+		<li>suggestions</li>
+		<li>angry messages and insults</li>
+		<li>memes</li>
+	</ul>
 </div>

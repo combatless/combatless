@@ -17,7 +17,16 @@ defmodule CombatlessWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/accounts", ProfileController
+    resources "/accounts", ProfileController, except: [:new, :show, :create, :update]
+    get "/accounts/:name", ProfileController, :show
+    get "/accounts/:name/create", ProfileController, :create
+    get "/accounts/:name/update", ProfileController, :update
+    get "/accounts/:name/:period", ProfileController, :show
+    resources "/datapoints", DatapointController
+  end
+
+  scope "/admin", CombatlessWeb do
+
   end
 
   # Other scopes may use custom stacks.
