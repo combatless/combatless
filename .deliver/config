@@ -1,0 +1,48 @@
+APP="combatless"
+
+BUILD_HOST="build.chip.sh"
+BUILD_USER="build"
+BUILD_AT="/home/build/$APP"
+
+STAGING_HOSTS="stage.myapp.com"
+STAGING_USER="web"
+
+PRODUCTION_HOSTS="combatless.com"
+PRODUCTION_USER="combatless"
+DELIVER_TO="/srv"
+
+# get secret configs
+pre_erlang_get_and_update_deps() {
+  local _local_secret_config_file="config/prod.secret.exs"
+  local _local_release_dir="rel/"
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    status "Copying '$_local_secret_config_file' file to build host"
+    rsync "$_local_secret_config_file" "$BUILD_USER@$BUILD_HOST:$BUILD_AT/config/prod.secret.exs"
+  fi
+}
+
+pre_erlang_clean_compile() {
+  status "Running yarn install"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
+    cd \"$BUILD_AT/assets\"
+    yarn $SILENCE
+  "
+  status "Running brunch build"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
+    cd \"$BUILD_AT/assets\"
+    ./node_modules/brunch/bin/brunch build --production $SILENCE
+  "
+  status "Running phoenix.digest"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
+    cd \"$BUILD_AT\"
+    if [ \"$BUILD_CMD\" = \"mix\" ]; then
+      APP=\"$APP\" MIX_ENV=\"$TARGET_MIX_ENV\" $MIX_CMD do phoenix.digest $SILENCE
+    fi
+  "
+}

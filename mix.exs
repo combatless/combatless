@@ -47,7 +47,9 @@ defmodule Combatless.Mixfile do
       {:timex_ecto, "~> 3.1"},
       {:con_cache, "~> 0.12"},
       {:oauth, github: "tim/erlang-oauth"},
-      {:ueberauth_twitter, "~> 0.2"}
+      {:ueberauth_twitter, "~> 0.2"},
+      {:edeliver, "~> 1.4.4"},
+      {:distillery, ">= 0.8.0"}
     ]
   end
 
