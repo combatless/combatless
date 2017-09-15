@@ -62,6 +62,8 @@ config :logger, level: :info
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 
+config :phoenix, :serve_endpoints, true
+
 config :ueberauth, Ueberauth,
        providers: [
          twitter: {Ueberauth.Strategy.Twitter, []}
