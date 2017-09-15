@@ -19,6 +19,13 @@ pre_erlang_get_and_update_deps() {
     status "Copying '$_local_secret_config_file' file to build host"
     rsync "$_local_secret_config_file" "$BUILD_USER@$BUILD_HOST:$BUILD_AT/config/prod.secret.exs"
   fi
+
+  local _local_secret_config_file="rel/config.exs"
+  local _local_release_dir="rel/"
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    status "Copying '$_local_secret_config_file' file to build host"
+    rsync "$_local_secret_config_file" "$BUILD_USER@$BUILD_HOST:$BUILD_AT/rel/config.exs"
+  fi
 }
 
 pre_erlang_clean_compile() {
