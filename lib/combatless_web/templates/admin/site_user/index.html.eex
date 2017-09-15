@@ -1,0 +1,34 @@
+<h2>Listing Site users</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Twitter</th>
+      <th>Slug</th>
+      <th>Avatar url</th>
+      <th>Is mod</th>
+      <th>Is admin</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for site_user <- @site_users do %>
+    <tr>
+      <td><%= site_user.twitter_id %></td>
+      <td><%= site_user.slug %></td>
+      <td><img src="<%= site_user.avatar_url %>" alt="avatar_url" /></td>
+      <td><%= site_user.is_mod %></td>
+      <td><%= site_user.is_admin %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: site_user_path(@conn, :show, site_user), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: site_user_path(@conn, :edit, site_user), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: site_user_path(@conn, :delete, site_user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Site user", to: site_user_path(@conn, :new) %></span>

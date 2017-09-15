@@ -28,22 +28,21 @@
 
 
       </header>
-
-      <%= if get_flash @conn, :error do %>
-      <div class="shoutbox callout alert">
-        <p><%= get_flash @conn, :error %></p>
-      </div>
-      <% end %>
-      <%= if get_flash @conn, :info do %>
-      <div class="shoutbox callout success">
-        <p><%= get_flash @conn, :info %></p>
-      </div>
-      <% end %>
-
-
       <main role="main">
+        <%= if get_flash @conn, :error do %>
+        <div class="shoutbox callout alert">
+          <p><%= get_flash @conn, :error %></p>
+        </div>
+        <% end %>
+        <%= if get_flash @conn, :info do %>
+        <div class="shoutbox callout success">
+          <p><%= get_flash @conn, :info %></p>
+        </div>
+        <% end %>
         <%= render @view_module, @view_template, assigns %>
       </main>
+
+      <footer class="text-center">current combatless made by bitwise, icons by bea5</footer>
 
     <script src='<%= static_path(@conn, "/js/app.js") %>'></script>
   </body>

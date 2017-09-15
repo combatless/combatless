@@ -1,0 +1,34 @@
+<h2>Show Site user</h2>
+
+<ul>
+
+  <li>
+    <strong>Twitter:</strong>
+    <%= @site_user.twitter_id %>
+  </li>
+
+  <li>
+    <strong>Slug:</strong>
+    <%= @site_user.slug %>
+  </li>
+
+  <li>
+    <strong>Avatar url:</strong>
+    <img src="<%= @site_user.avatar_url %>" alt="avatar_url" />
+    <%= @site_user.avatar_url %>
+  </li>
+
+  <li>
+    <strong>Is mod:</strong>
+    <%= @site_user.is_mod %>
+  </li>
+
+  <li>
+    <strong>Is admin:</strong>
+    <%= @site_user.is_admin %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: site_user_path(@conn, :edit, @site_user) %></span>
+<span><%= link "Back", to: site_user_path(@conn, :index) %></span>

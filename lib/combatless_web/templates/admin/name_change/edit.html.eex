@@ -1,0 +1,5 @@
+<h2>Edit Name change</h2>
+
+<%= render "form.html", Map.put(assigns, :action, mod_name_change_path(@conn, :update, @name_change)) %>
+
+<span><%= link "Back", to: mod_name_change_path(@conn, :index) %></span>

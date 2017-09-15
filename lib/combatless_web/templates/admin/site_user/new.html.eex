@@ -1,0 +1,5 @@
+<h2>New Site user</h2>
+
+<%= render "form.html", Map.put(assigns, :action, site_user_path(@conn, :create)) %>
+
+<span><%= link "Back", to: site_user_path(@conn, :index) %></span>

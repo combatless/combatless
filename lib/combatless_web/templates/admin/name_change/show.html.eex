@@ -1,0 +1,23 @@
+<h2>Show Name change</h2>
+
+<ul>
+
+  <li>
+    <strong>From:</strong>
+    <%= @name_change.from %>
+  </li>
+
+  <li>
+    <strong>To:</strong>
+    <%= @name_change.to %>
+  </li>
+
+  <li>
+    <strong>Is valid:</strong>
+    <%= @name_change.is_valid %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: mod_name_change_path(@conn, :edit, @name_change) %></span>
+<span><%= link "Back", to: mod_name_change_path(@conn, :index) %></span>

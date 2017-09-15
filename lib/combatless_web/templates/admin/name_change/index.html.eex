@@ -1,0 +1,29 @@
+<h2>Listing Name changes</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>From</th>
+      <th>To</th>
+      <th>Is valid</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for name_change <- @name_changes do %>
+    <tr>
+      <td><%= name_change.from %></td>
+      <td><%= name_change.to %></td>
+      <td><%= name_change.is_valid %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: mod_name_change_path(@conn, :show, name_change), class: "button" %></span>
+        <span><%= link "Edit", to: mod_name_change_path(@conn, :edit, name_change), class: "button" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Name change", to: mod_name_change_path(@conn, :new) %></span>

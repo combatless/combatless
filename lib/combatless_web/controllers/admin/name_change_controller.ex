@@ -15,11 +15,12 @@ defmodule CombatlessWeb.Admin.NameChangeController do
   end
 
   def create(conn, %{"name_change" => name_change_params}) do
+    name_change_params = Map.put(name_change_params, "is_valid", false)
     case Accounts.create_name_change(name_change_params) do
       {:ok, name_change} ->
         conn
-        |> put_flash(:info, "Name change created successfully.")
-        |> redirect(to: name_change_path(conn, :show, name_change))
+        |> put_flash(:info, "Name change created successfully.  Still needs to be approved.")
+        |> redirect(to: mod_name_change_path(conn, :show, name_change))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -43,18 +44,9 @@ defmodule CombatlessWeb.Admin.NameChangeController do
       {:ok, name_change} ->
         conn
         |> put_flash(:info, "Name change updated successfully.")
-        |> redirect(to: name_change_path(conn, :show, name_change))
+        |> redirect(to: mod_name_change_path(conn, :show, name_change))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", name_change: name_change, changeset: changeset)
     end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    name_change = Accounts.get_name_change!(id)
-    {:ok, _name_change} = Accounts.delete_name_change(name_change)
-
-    conn
-    |> put_flash(:info, "Name change deleted successfully.")
-    |> redirect(to: name_change_path(conn, :index))
   end
 end

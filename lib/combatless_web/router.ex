@@ -42,10 +42,10 @@ defmodule CombatlessWeb.Router do
     get "/:provider/callback", AuthController, :callback
   end
 
-  scope "/mod", CombatlessWeb.Admin do
+  scope "/mod", CombatlessWeb.Admin, as: :mod do
     pipe_through [:browser, :mod]
 
-    resources "/name_changes", NameChangeController
+    resources "/name_changes", NameChangeController, except: [:delete]
   end
 
   scope "/admin", CombatlessWeb.Admin do

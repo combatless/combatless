@@ -37,7 +37,16 @@
       </tbody>
     </table>
   </div>
-	<div class="small-12 medium-4 cell"></div>
+	<div class="small-12 medium-offset-1 medium-3 cell account-tools">
+    <div class="callout small name-change">
+      <h5>Change Username</h5>
+      <form action="<%= name_change_path(@conn, :request) %>">
+        <input type="hidden" name="from" value="<%= @profile.account.name %>">
+        <input type="text" placeholder="To..." name="to">
+        <input type="submit" class="button">
+      </form>
+    </div>
+  </div>
 </div>
 <% else %>
 <h2 class="account-name"><%= printable_account_name @profile.account.name %></h2>

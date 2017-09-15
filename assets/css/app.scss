@@ -8,6 +8,16 @@ html, body {
   font-family: 'Roboto Slab', serif;
 }
 
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+  & main {
+    flex: 1;
+  }
+}
+
 
 
 .top-bar-title > a {
@@ -312,5 +322,23 @@ main {
 
   &:hover {
     cursor: pointer;
+  }
+}
+
+.account-tools {
+}
+
+
+.name-change-request {
+  max-width: 300px;
+  margin: 0 auto;
+
+  & label {
+    color: $primary-color;
+  }
+
+  & button {
+    margin: 0 auto;
+    width: 100%;
   }
 }

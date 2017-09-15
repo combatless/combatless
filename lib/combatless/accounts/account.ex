@@ -4,6 +4,7 @@ defmodule Combatless.Accounts.Account do
   alias Combatless.Accounts
   alias Combatless.Accounts.Account
   alias Combatless.Datapoints.Datapoint
+  alias Combatless.SiteUsers.SiteUser
 
   @timestamps_opts [
     type: Timex.Ecto.DateTime,
@@ -18,6 +19,7 @@ defmodule Combatless.Accounts.Account do
     field :old_name, :string
     field :settings, :map, null: false, default: %{}
     has_many :datapoints, Datapoint
+    has_one :site_user, SiteUser
 
     timestamps()
   end
