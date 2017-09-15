@@ -35,7 +35,7 @@
       </div>
       <% end %>
       <%= if get_flash @conn, :info do %>
-      <div class="shoutbox callout primary">
+      <div class="shoutbox callout success">
         <p><%= get_flash @conn, :info %></p>
       </div>
       <% end %>

@@ -3,7 +3,6 @@ defmodule CombatlessWeb.ProfileController do
 
   alias Combatless.Accounts
   alias Combatless.Accounts.Account
-  alias Combatless.Datapoints
 
   def index(conn, %{"name" => name}) do
     username = Accounts.format_account_name(name)
@@ -13,7 +12,6 @@ defmodule CombatlessWeb.ProfileController do
   def index(conn, _params) do
     render(conn, "index.html")
   end
-
 
 
   def create(conn, %{"name" => name}) do
@@ -43,9 +41,7 @@ defmodule CombatlessWeb.ProfileController do
          nil -> redirect(conn, to: profile_path(conn, :show, name))
          %Account{} = account ->
            with {:ok, _datapoint} <- Accounts.create_account_datapoint(account) do
-             conn
-             |> put_flash(:info, "Account updated successfully.")
-             |> redirect(to: profile_path(conn, :show, account.name))
+             redirect(conn, to: profile_path(conn, :show, account.name))
            else
              {:error, :not_combatless} ->
                conn

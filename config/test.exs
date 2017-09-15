@@ -9,4 +9,9 @@ config :combatless, CombatlessWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+config :ueberauth, Ueberauth,
+       providers: [
+         twitter: {Ueberauth.Strategy.Twitter, []}
+       ]
+
 import_config "test.secret.exs"

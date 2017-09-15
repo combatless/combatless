@@ -36,7 +36,8 @@ defmodule CombatlessWeb.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_combatless_key",
-    signing_salt: "ZdVWe4VU"
+    signing_salt: "ZdVWe4VU",
+    max_age: 2_592_000 # one month
 
   plug CombatlessWeb.Router
 

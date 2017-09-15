@@ -300,4 +300,100 @@ defmodule Combatless.Accounts do
   #  furthest = Datapoints.get_furthest_datapoints(datapoints)
   #  %Profile{account: account, datapoints: furthest}
   #end
+
+  alias Combatless.Accounts.NameChange
+
+  @doc """
+  Returns the list of name_changes.
+
+  ## Examples
+
+      iex> list_name_changes()
+      [%NameChange{}, ...]
+
+  """
+  def list_name_changes do
+    Repo.all(NameChange)
+  end
+
+  @doc """
+  Gets a single name_change.
+
+  Raises `Ecto.NoResultsError` if the Name change does not exist.
+
+  ## Examples
+
+      iex> get_name_change!(123)
+      %NameChange{}
+
+      iex> get_name_change!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_name_change!(id), do: Repo.get!(NameChange, id)
+
+  @doc """
+  Creates a name_change.
+
+  ## Examples
+
+      iex> create_name_change(%{field: value})
+      {:ok, %NameChange{}}
+
+      iex> create_name_change(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_name_change(attrs \\ %{}) do
+    %NameChange{}
+    |> NameChange.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a name_change.
+
+  ## Examples
+
+      iex> update_name_change(name_change, %{field: new_value})
+      {:ok, %NameChange{}}
+
+      iex> update_name_change(name_change, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_name_change(%NameChange{} = name_change, attrs) do
+    name_change
+    |> NameChange.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a NameChange.
+
+  ## Examples
+
+      iex> delete_name_change(name_change)
+      {:ok, %NameChange{}}
+
+      iex> delete_name_change(name_change)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_name_change(%NameChange{} = name_change) do
+    Repo.delete(name_change)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking name_change changes.
+
+  ## Examples
+
+      iex> change_name_change(name_change)
+      %Ecto.Changeset{source: %NameChange{}}
+
+  """
+  def change_name_change(%NameChange{} = name_change) do
+    NameChange.changeset(name_change, %{})
+  end
 end

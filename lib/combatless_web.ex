@@ -44,6 +44,24 @@ defmodule CombatlessWeb do
     end
   end
 
+  def admin_view do
+    quote do
+      use Phoenix.View, root: "lib/combatless_web/templates/admin",
+                        namespace: CombatlessWeb.Admin
+
+      # Import convenience functions from controllers
+      import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
+
+      # Use all HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
+
+      import CombatlessWeb.Router.Helpers
+      import CombatlessWeb.ErrorHelpers
+      import CombatlessWeb.Gettext
+      import Combatless.Accounts, only: [format_account_name: 1, printable_account_name: 1]
+    end
+  end
+
   def router do
     quote do
       use Phoenix.Router

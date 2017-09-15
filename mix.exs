@@ -26,7 +26,7 @@ defmodule Combatless.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -44,7 +44,10 @@ defmodule Combatless.Mixfile do
       {:cowboy, "~> 1.0"},
       {:httpoison, "~> 0.13"},
       {:timex, "~> 3.1"},
-      {:timex_ecto, "~> 3.1"}
+      {:timex_ecto, "~> 3.1"},
+      {:con_cache, "~> 0.12"},
+      {:oauth, github: "tim/erlang-oauth"},
+      {:ueberauth_twitter, "~> 0.2"}
     ]
   end
 

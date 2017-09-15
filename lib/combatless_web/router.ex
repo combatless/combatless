@@ -9,8 +9,16 @@ defmodule CombatlessWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  pipeline :admin do
+    plug CombatlessWeb.Auth.Narnode, allow: [:admin]
+  end
+
+  pipeline :mod do
+    plug CombatlessWeb.Auth.Narnode, allow: [:admin, :mod]
+  end
+
+  pipeline :user do
+    plug CombatlessWeb.Auth.Narnode, allow: [:admin, :mod, :user]
   end
 
   scope "/", CombatlessWeb do
@@ -22,15 +30,28 @@ defmodule CombatlessWeb.Router do
     get "/accounts/:name/create", ProfileController, :create
     get "/accounts/:name/update", ProfileController, :update
     get "/accounts/:name/:period", ProfileController, :show
+    get "/namechange", NameChangeController, :request
+    post "/namechange", NameChangeController, :create_request
+  end
+
+  scope "/auth", CombatlessWeb.Auth do
+    pipe_through :browser
+
+    delete "/logout", AuthController, :delete
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+  end
+
+  scope "/mod", CombatlessWeb.Admin do
+    pipe_through [:browser, :mod]
+
+    resources "/name_changes", NameChangeController
+  end
+
+  scope "/admin", CombatlessWeb.Admin do
+    pipe_through [:browser, :admin]
+
     resources "/datapoints", DatapointController
+    resources "/site_users", SiteUserController
   end
-
-  scope "/admin", CombatlessWeb do
-
-  end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", CombatlessWeb do
-  #   pipe_through :api
-  # end
 end

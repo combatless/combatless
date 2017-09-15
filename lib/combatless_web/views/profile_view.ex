@@ -28,23 +28,8 @@ defmodule CombatlessWeb.ProfileView do
     if most_recently_fetched == "", do: "Updated just now.", else: "Updated #{most_recently_fetched} ago."
   end
 
-  #<td class="data"><%= if @latest[skill].rank > -1, do: @latest[skill].rank |> format_integer(), else: "?" %></td>
-  #<%= if @latest[skill].virtual_level == @latest[skill].level do %>
-  #<td class="data"><%= @latest[skill].virtual_level %></td>
-  #<% else %>
-  # <td class="data">
-  #<abbr class="virtual-level-tooltip" title="<%= @latest[skill].virtual_level %>">
-  #<%= @latest[skill].level %>
-  # </abbr>
-  # </td>
-  # <% end %>
-  # <td class="data"><%= @latest[skill].xp |> format_integer() %></td>
-  # <td class="data"><%= @diff[skill].xp |> diff_color() #latest[skill].xp - earliest[skill].xp |> diff_color() %></td>
-  # <td class="data"><%= @diff[skill].ehp|> diff_color() #latest[skill].ehp - earliest[skill].ehp |> diff_color() %></td>
-
   def get_profile_skill_row_data(skill, sprites, %Profile{} = profile) do
     data = Map.get(profile.hiscores.most_recent, skill)
-    diff = Map.get(profile.hiscores, :diff)
     content_tag(:tr) do
       [
         content_tag(:td, content_tag(:svg, tag(:use, [{:"xlink:href", "#{sprites}\##{skill}"}]), class: "skill-icon")),
@@ -93,22 +78,22 @@ defmodule CombatlessWeb.ProfileView do
     end
   end
 
-  def format_integer(integer, separator \\ ",") do
+  def format_integer(integer) do
     integer
     |> Integer.to_charlist()
     |> Enum.reverse()
-    |> partition_integer(separator, [])
+    |> partition_integer([])
   end
 
-  defp partition_integer([a, b, c, ?- | tail], _, acc) do
+  defp partition_integer([a, b, c, ?- | _tail], acc) do
     [?-, c, b, a | acc]
   end
 
-  defp partition_integer([a, b, c, d | tail], separator, acc) do
-    partition_integer [d | tail], separator, [?,, c, b, a | acc]
+  defp partition_integer([a, b, c, d | tail], acc) do
+    partition_integer [d | tail], [?,, c, b, a | acc]
   end
 
-  defp partition_integer(rest, _, acc) do
+  defp partition_integer(rest, acc) do
     Enum.reverse(rest) ++ acc
   end
 end

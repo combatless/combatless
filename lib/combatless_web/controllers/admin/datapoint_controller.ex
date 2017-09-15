@@ -1,4 +1,4 @@
-defmodule CombatlessWeb.DatapointController do
+defmodule CombatlessWeb.Admin.DatapointController do
   use CombatlessWeb, :controller
 
   alias Combatless.Datapoints

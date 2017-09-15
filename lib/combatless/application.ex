@@ -14,6 +14,7 @@ defmodule Combatless.Application do
       supervisor(CombatlessWeb.Endpoint, []),
       # Start your own worker by calling: Combatless.Worker.start_link(arg1, arg2, arg3)
       # worker(Combatless.Worker, [arg1, arg2, arg3]),
+      supervisor(ConCache, [[ttl_check: :timer.seconds(5), ttl: :timer.seconds(600)], [name: :site_users_ranks]])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
