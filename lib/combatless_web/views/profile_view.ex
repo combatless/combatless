@@ -25,7 +25,7 @@ defmodule CombatlessWeb.ProfileView do
       |> Timex.diff(profile.times.now, :duration)
       |> Timex.format_duration(:humanized)
 
-    if most_recently_fetched == "", do: "Updated just now.", else: "Updated #{most_recently_fetched} ago."
+    if most_recently_fetched == "0 microseconds", do: "Updated just now.", else: "Updated #{most_recently_fetched} ago."
   end
 
   def get_profile_skill_row_data(skill, sprites, %Profile{} = profile) do
@@ -38,7 +38,7 @@ defmodule CombatlessWeb.ProfileView do
           content_tag(:td, data.level, class: "data")
         else
           content_tag(:td, class: "data") do
-            content_tag(:abbr, data.virtual_level, class: "virtual-level-tooltip", title: data.level)
+            content_tag(:abbr, data.virtual_level, class: "virtual-level-tooltip", title: "Virtual Level")
           end
         end,
         content_tag(:td, format_integer(data.xp), class: "data"),
