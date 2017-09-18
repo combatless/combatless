@@ -38,7 +38,8 @@ defmodule CombatlessWeb.ProfileView do
           content_tag(:td, data.level, class: "data")
         else
           content_tag(:td, class: "data") do
-            content_tag(:abbr, data.virtual_level, class: "virtual-level-tooltip", title: "Virtual Level")
+            title = if skill == :overall, do: data.level, else: "Virtual Level"
+            content_tag(:abbr, data.virtual_level, class: "virtual-level-tooltip", title: title)
           end
         end,
         content_tag(:td, format_integer(data.xp), class: "data"),
