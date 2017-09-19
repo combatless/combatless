@@ -155,6 +155,17 @@ defmodule Combatless.Accounts do
     update_account(account, attrs)
   end
 
+  def get_all_accounts_last_fetched_at() do
+    Repo.all(
+      from a in Account,
+      join: d in Datapoint,
+      on: d.account_id == a.id,
+      group_by: a.id,
+      having: a.is_combatless == true,
+      select: {a.id, max(d.fetched_at)}
+    )
+  end
+
   defp validate_combat_level(%Hiscore{} = hiscore) do
     case OSRS.combat_level(hiscore) do
       level when level < 4 -> :ok
