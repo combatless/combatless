@@ -1,10 +1,10 @@
 <%= if @profile.datapoints do %>
 <div class="tracker-header grid-x">
-  <div class="name-block small-12 medium-6 cell">
+  <div class="name-block small-12 medium-8 cell">
     <h2 class="account-name"><%= printable_account_name @profile.account.name %></h2>
     <span><%= trunc(@profile.hiscores.most_recent.overall.ehp) |> format_integer() %> ehp</span>
   </div>
-  <div class="small-12 medium-6 cell">
+  <div class="small-12 medium-4 cell">
     <div class="update-block">
       <div class="updated-at">
         <%= if @profile.has_diff? do %>
