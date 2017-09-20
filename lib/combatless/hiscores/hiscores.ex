@@ -5,7 +5,9 @@ defmodule Combatless.Hiscores do
 
   import Ecto.Query, warn: false
   alias Combatless.Repo
+  alias Combatless.Datapoints
   alias Combatless.Datapoints.Datapoint
+  alias Combatless.Accounts.Account
   alias Ecto.Multi
 
   alias Combatless.Hiscores.Hiscore
@@ -104,11 +106,77 @@ defmodule Combatless.Hiscores do
     Hiscore.changeset(hiscore, %{})
   end
 
+  def user_preload(%Account{} = account) do
+    ##Repo.one(
+    ##  from a in Account,
+    ##    join: h in assoc(a, :hiscores),
+    ##    join: sd in assoc(h, :skill_datapoint),
+    ##    join: s in assoc(h, :skill),
+    ##    preload: [hiscores: {h, [skill_datapoint: sd, skill: s]}],
+    ##    where: a.id == ^account.id
+    ##)
+    Repo.preload(account, [hiscores: [:skill_datapoint, :skill]])
+  end
+
+  def active_hiscores_data_query(skill) do
+    from([h, sd, s, a] in active_hiscores_query(skill),
+      preload: [skill_datapoint: sd, account: a]
+    )
+  end
+
+  def active_hiscores_query(skill) do
+    real_skill = if skill == "ehp", do: "overall", else: skill
+
+    from(h in Hiscore,
+      join: sd in assoc(h, :skill_datapoint),
+      join: s in assoc(h, :skill),
+      join: a in assoc(h, :account),
+      where: s.slug == ^real_skill and a.is_combatless == true and sd.rank > 0,
+    )
+    |> skill_order(skill)
+  end
+
+  def skill_order(query, "ehp"), do: from [h, sd] in query, order_by: [desc: sd.ehp]
+  def skill_order(query, "overall"), do: from [h, sd] in query, order_by: [desc: sd.virtual_level]
+  def skill_order(query, _), do: from [h, sd] in query, order_by: [asc: sd.rank]
+
+  def get_rank(%Account{} = account, skill) do
+    real_skill = if skill == "ehp", do: "overall", else: skill
+    skill_datapoint =
+      account
+      |> user_preload()
+      |> Map.get(:hiscores)
+      |> Enum.find(& &1.skill.slug == real_skill)
+      |> Map.get(:skill_datapoint)
+
+    skill
+    |> active_hiscores_query()
+    |> skill_rank(skill, skill_datapoint)
+    |> Repo.aggregate(:count, :id)
+    |> Kernel.+(1)
+  end
+
+  def skill_rank(query, "ehp", user_sd), do: from [h, sd] in query, where: sd.ehp > ^user_sd.ehp
+  def skill_rank(query, "overall", user_sd), do: from [h, sd] in query, where: sd.virtual_level > ^user_sd.virtual_level
+  def skill_rank(query, _, user_sd), do: from [h, sd] in query, where: sd.rank < ^user_sd.rank
+
   @spec generate_hiscores(%Datapoint{} | {atom, any}) :: {:ok | :error, any}
   def generate_hiscores({:error, error}), do: {:error, error}
   def generate_hiscores({:ok, %Datapoint{} = datapoint}), do: generate_hiscores(datapoint)
   def generate_hiscores(%Datapoint{} = datapoint) do
     Repo.transaction(fn -> do_generate_hiscores(datapoint) end)
+  end
+
+  def get_ranks(%Account{} = account) do
+    account = user_preload(account)
+
+    account
+    |> Map.get(:hiscores)
+    |> Enum.reduce(%{}, fn hiscore, acc ->
+      skill = hiscore.skill.slug
+      rank = if hiscore.skill_datapoint.rank > 0, do: get_rank(account, skill), else: -1
+      Map.put(acc, String.to_atom(skill), rank)
+    end)
   end
 
   defp do_generate_hiscores(%Datapoint{} = datapoint) do

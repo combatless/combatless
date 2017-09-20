@@ -241,7 +241,8 @@ defmodule Combatless.Accounts do
             most_recent: most_recent_hiscore,
             least_recent: least_recent_hiscore,
             diff: hiscore_diff
-          }
+          },
+          ranks: Combatless.Hiscores.get_ranks(account)
         }
     end
   end
@@ -257,6 +258,7 @@ defmodule Combatless.Accounts do
             starting_time: starting_time
           },
           datapoints: nil,
+          ranks: nil,
           hiscores: nil
         }
       %Datapoint{} = latest ->
@@ -272,7 +274,8 @@ defmodule Combatless.Accounts do
           },
           hiscores: %{
             most_recent: Datapoints.datapoint_to_hiscore(latest)
-          }
+          },
+          ranks: Combatless.Hiscores.get_ranks(account)
         }
     end
   end

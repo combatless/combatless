@@ -18,8 +18,6 @@ body {
   }
 }
 
-
-
 .top-bar-title > a {
   font-size: 1.3rem;
   color: $light-gray;
@@ -94,8 +92,6 @@ main {
     background-color: lighten($body-background, 3%);
   }
 
-
-
   tbody tr {
     width: 100%;
     border-bottom: 1px solid $steel-gray;
@@ -165,10 +161,9 @@ main {
         th {
           text-align: center;
           padding: .4rem;
-          font-weight:normal;
+          font-weight: normal;
           border-right: 1px solid $steel-gray;
           border-top: 1px solid $steel-gray;
-
 
           &:first-child {
             border-left: 1px solid $steel-gray;
@@ -314,7 +309,6 @@ main {
   }
 }
 
-
 .virtual-level-tooltip[title] {
   text-decoration: underline;
   border: none;
@@ -328,7 +322,6 @@ main {
 .account-tools {
 }
 
-
 .name-change-request {
   max-width: 300px;
   margin: 0 auto;
@@ -340,5 +333,47 @@ main {
   & button {
     margin: 0 auto;
     width: 100%;
+  }
+}
+
+.hiscore-pages {
+  @extend .text-center;
+}
+
+.hiscores-skills-list ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  @include breakpoint(large) {
+    flex-wrap: nowrap;
+  }
+
+  & .hiscore-active {
+    box-shadow: 0 1rem 6px -6px $primary-color;
+  }
+
+  & .skill-icon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.hiscore-ranks {
+  display: flex;
+  justify-content: center;
+
+  ul {
+    list-style: none;
+  }
+
+  a {
+    margin: 1rem;
+    color: lighten($primary-color, 10%)
+  }
+
+  a:hover {
+    color: darken($primary-color, 10%);
   }
 }

@@ -1,5 +1,7 @@
 defmodule Combatless.Repo do
   use Ecto.Repo, otp_app: :combatless
+  use Scrivener, page_size: 25, max_page_size: 250
+
 
   @doc """
   Dynamically loads the repository url from the

@@ -1,5 +1,6 @@
 defmodule Combatless.Hiscores.Hiscore do
   use Ecto.Schema
+
   import Ecto.Changeset
   alias Combatless.Hiscores.Hiscore
   alias Combatless.Accounts.Account

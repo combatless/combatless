@@ -1,20 +1,14 @@
-<h2>Listing Hiscores</h2>
-
-<table class="table">
-  <thead>
-    <tr>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for hiscore <- @hiscores do %>
-    <tr>
-
-      <td class="text-right">
-        <span><%= link "Show", to: hiscore_path(@conn, :show, hiscore), class: "btn btn-default btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+<h2 class="text-center"><%= if @skill == "ehp", do: "EHP", else: String.capitalize(@skill) %> Hiscores</h2>
+<div class="hiscores-skills-list">
+<ul>
+<%= build_skill_icon_items @conn, @skill %>
+</ul>
+</div>
+<div class="hiscore-ranks">
+  <ul>
+    <%= build_hiscore_list @conn, @page %>
+  </ul>
+</div>
+<div class="hiscore-pages">
+  <%= pagination_links @page, skill: @skill %>
+</div>

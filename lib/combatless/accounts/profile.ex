@@ -13,5 +13,6 @@ defmodule Combatless.Accounts.Profile do
               now: Timex.now(),
               starting_time: nil
             },
+            ranks: nil,
             account: nil
 end

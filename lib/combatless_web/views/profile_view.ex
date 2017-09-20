@@ -33,7 +33,7 @@ defmodule CombatlessWeb.ProfileView do
     content_tag(:tr) do
       [
         content_tag(:td, content_tag(:svg, tag(:use, [{:"xlink:href", "#{sprites}\##{skill}"}]), class: "skill-icon")),
-        content_tag(:td, (if data.rank > -1, do: format_integer(data.rank), else: "?"), class: "data"),
+        content_tag(:td, get_rank(profile, skill), class: "data"),
         if data.virtual_level == data.level do
           content_tag(:td, data.level, class: "data")
         else
@@ -44,9 +44,14 @@ defmodule CombatlessWeb.ProfileView do
         end,
         content_tag(:td, format_integer(data.xp), class: "data"),
         content_tag(:td, get_diff_content(profile, skill, :xp), class: "data"),
-        content_tag(:td, get_diff_content(profile, skill, :ehp), class: "data")
+        content_tag(:td, get_diff_content(profile, skill, :ehp), class: "data", title: trunc(data.ehp))
       ]
     end
+  end
+
+  defp get_rank(%Profile{ranks: nil}), do: "?"
+  defp get_rank(%Profile{ranks: ranks}, skill) do
+    if ranks[skill] > 0, do: ranks[skill], else: "?"
   end
 
   defp get_diff_content(%Profile{has_diff?: false}, _, _), do: content_tag(:span, "0", class: "diff")

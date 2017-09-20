@@ -69,7 +69,6 @@ defmodule CombatlessWeb.ProfileController do
            new(conn, opts[:name])
          %Account{} = account ->
            profile = Accounts.get_account_profile(account, opts[:period])
-           IO.inspect(profile)
            render(conn, "show.html", profile: profile)
        end
   end

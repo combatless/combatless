@@ -19,8 +19,7 @@ defmodule Combatless.Accounts.Account do
     field :old_name, :string
     field :settings, :map, null: false, default: %{}
     has_many :datapoints, Datapoint
-    has_one :site_user, SiteUser
-    has_one :hiscore, Combatless.Hiscores.Hiscore
+    has_many :hiscores, Combatless.Hiscores.Hiscore
 
     timestamps()
   end

@@ -2,6 +2,7 @@ defmodule Combatless.SiteUsers.SiteUser do
   use Ecto.Schema
   import Ecto.Changeset
   alias Combatless.SiteUsers.SiteUser
+  alias Combatless.Accounts.Account
 
 
   schema "site_users" do
