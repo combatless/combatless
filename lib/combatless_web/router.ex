@@ -32,6 +32,7 @@ defmodule CombatlessWeb.Router do
     get "/accounts/:name/:period", ProfileController, :show
     get "/namechange", NameChangeController, :request
     post "/namechange", NameChangeController, :create_request
+    resources "/hiscores", HiscoreController, only: [:index, :show]
   end
 
   scope "/auth", CombatlessWeb.Auth do

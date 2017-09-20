@@ -210,7 +210,8 @@ defmodule Combatless.Accounts do
       {ehp_version, hiscore_with_ehp} = EHP.calculate(hiscore)
       %Datapoint{fetched_at: time, account_id: account.id, ehp_version: ehp_version}
       |> Datapoints.from_hiscore(hiscore_with_ehp)
-      |> Datapoints.insert_datapoint_changeset()
+      |> Repo.insert()
+      |> Combatless.Hiscores.generate_hiscores()
     end
   end
 

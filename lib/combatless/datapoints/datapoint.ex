@@ -17,6 +17,7 @@ defmodule Combatless.Datapoints.Datapoint do
     field :is_valid, :boolean, default: true
     belongs_to :account, Account
     has_many :skill_datapoints, SkillDatapoint
+    has_many :hiscore, Combatless.Hiscores.Hiscore
 
     timestamps()
   end

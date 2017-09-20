@@ -1,0 +1,20 @@
+<h2>Listing Hiscores</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for hiscore <- @hiscores do %>
+    <tr>
+
+      <td class="text-right">
+        <span><%= link "Show", to: hiscore_path(@conn, :show, hiscore), class: "btn btn-default btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

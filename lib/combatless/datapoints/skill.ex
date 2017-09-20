@@ -9,6 +9,7 @@ defmodule Combatless.Datapoints.Skill do
     field :name, :string
     field :slug, :string
     has_many :skill_datapoints, SkillDatapoint
+    has_many :hiscores, Combatless.Hiscores.Hiscore
   end
 
   @doc false

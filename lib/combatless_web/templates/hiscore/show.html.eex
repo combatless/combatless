@@ -1,0 +1,7 @@
+<h2>Show Hiscore</h2>
+
+<ul>
+
+</ul>
+
+<span><%= link "Back", to: hiscore_path(@conn, :index) %></span>
