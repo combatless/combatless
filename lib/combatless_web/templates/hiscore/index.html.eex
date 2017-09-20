@@ -1,14 +1,16 @@
-<h2 class="text-center"><%= if @skill == "ehp", do: "EHP", else: String.capitalize(@skill) %> Hiscores</h2>
 <div class="hiscores-skills-list">
-<ul>
-<%= build_skill_icon_items @conn, @skill %>
-</ul>
+	<ul>
+		<%= build_skill_icon_items @conn, @skill %>
+	</ul>
 </div>
+<h2 class="text-center"><%= if @skill == "ehp", do: "EHP", else: String.capitalize(@skill) %> Hiscores</h2>
 <div class="hiscore-ranks">
-  <ul>
-    <%= build_hiscore_list @conn, @page %>
-  </ul>
+	<table class="unstriped">
+		<tbody>
+		<%= build_hiscore_list @conn, @page, @skill %>
+		</tbody>
+	</table>
 </div>
 <div class="hiscore-pages">
-  <%= pagination_links @page, skill: @skill %>
+	<%= pagination_links @page, skill: @skill %>
 </div>

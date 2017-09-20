@@ -364,6 +364,27 @@ main {
   display: flex;
   justify-content: center;
 
+  table {
+    width: auto;
+    tbody {
+      border: none;
+      tr {
+        border: none
+      }
+    }
+  }
+
+  .hiscore-rank {
+    padding: 0;
+  }
+
+  .hiscore-name {
+    padding-left: .5rem;
+    a {
+      margin: 0;
+    }
+  }
+
   ul {
     list-style: none;
   }

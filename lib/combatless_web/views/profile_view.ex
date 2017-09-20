@@ -1,6 +1,8 @@
 defmodule CombatlessWeb.ProfileView do
   use CombatlessWeb, :view
 
+  import Combatless.Utils, only: [format_integer: 1]
+
   alias Combatless.Accounts.Profile
 
   @display_order ~w(overall cooking woodcutting fletching fishing
@@ -82,24 +84,5 @@ defmodule CombatlessWeb.ProfileView do
       diff > 0 -> content_tag :span, "+#{diff_str}", class: "diff positive"
       diff < 0 -> content_tag :span, diff_str, class: "diff negative"
     end
-  end
-
-  def format_integer(integer) do
-    integer
-    |> Integer.to_charlist()
-    |> Enum.reverse()
-    |> partition_integer([])
-  end
-
-  defp partition_integer([a, b, c, ?- | _tail], acc) do
-    [?-, c, b, a | acc]
-  end
-
-  defp partition_integer([a, b, c, d | tail], acc) do
-    partition_integer [d | tail], [?,, c, b, a | acc]
-  end
-
-  defp partition_integer(rest, acc) do
-    Enum.reverse(rest) ++ acc
   end
 end
