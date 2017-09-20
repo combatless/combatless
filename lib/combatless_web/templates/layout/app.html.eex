@@ -9,6 +9,7 @@
 
     <title>Combatless</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono" rel="stylesheet">
     <link rel="stylesheet" href='<%= static_path(@conn, "/css/app.css") %>'>
   </head>
 

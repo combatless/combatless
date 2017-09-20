@@ -28,13 +28,13 @@ defmodule CombatlessWeb.HiscoreView do
       name = hiscore.account.name
       content_tag(:tr) do
         [
-          content_tag(:td, "#{rank}.", class: "hiscore-rank"),
+          content_tag(:td, "#{rank}.", class: "hiscore-rank data"),
           content_tag(
             :td,
             content_tag(:a, printable_account_name(name), href: profile_path(conn, :show, name)),
             class: "hiscore-name"
           ),
-          content_tag(:td, hiscore_value(hiscore.skill_datapoint, skill), class: "hiscore-value")
+          content_tag(:td, hiscore_value(hiscore.skill_datapoint, skill), class: "data")
         ]
       end
     end

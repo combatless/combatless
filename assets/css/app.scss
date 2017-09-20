@@ -104,7 +104,6 @@ main {
 
   tbody td {
     border-bottom: 1px solid $steel-gray;
-    text-align: right;
     padding-right: 1rem;
 
     &:before {
@@ -397,4 +396,14 @@ main {
   a:hover {
     color: darken($primary-color, 10%);
   }
+}
+
+.data {
+  @extend .monospace;
+  text-align: right;
+}
+
+.monospace {
+  font-family: 'Droid Sans Mono', monospace;
+  font-size: $base-font-size;
 }

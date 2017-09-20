@@ -35,13 +35,13 @@ defmodule CombatlessWeb.ProfileView do
     content_tag(:tr) do
       [
         content_tag(:td, content_tag(:svg, tag(:use, [{:"xlink:href", "#{sprites}\##{skill}"}]), class: "skill-icon")),
-        content_tag(:td, get_rank(profile, skill), class: "data"),
+        content_tag(:td, format_integer(get_rank(profile, skill)), class: "data"),
         if data.virtual_level == data.level do
-          content_tag(:td, data.level, class: "data")
+          content_tag(:td, format_integer(data.level), class: "data")
         else
           content_tag(:td, class: "data") do
-            title = if skill == :overall, do: data.level, else: "Virtual Level"
-            content_tag(:abbr, data.virtual_level, class: "virtual-level-tooltip", title: title)
+            title = if skill == :overall, do: format_integer(data.level), else: "Virtual Level"
+            content_tag(:abbr, format_integer(data.virtual_level), class: "virtual-level-tooltip data", title: title)
           end
         end,
         content_tag(:td, format_integer(data.xp), class: "data"),
