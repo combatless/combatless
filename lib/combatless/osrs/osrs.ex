@@ -36,7 +36,7 @@ defmodule Combatless.OSRS do
     min 99, get_virtual_level(xp)
   end
 
-  def get_virtual_level(xp) when xp < 0, do: 0
+  def get_virtual_level(xp) when xp < 0, do: 1
   def get_virtual_level(xp) when xp >= 200_000_000, do: 126
   def get_virtual_level(xp) when xp >= 0 do
     Enum.find_index(@xp_table, & &1 > xp)

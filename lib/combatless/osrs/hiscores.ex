@@ -97,6 +97,8 @@ defmodule Combatless.OSRS.Hiscores do
       |> Enum.zip(values)
       |> Map.new()
 
+    data = Map.put(:xp, max(0, data.xp))
+
     {name, data}
   end
 
