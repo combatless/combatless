@@ -1,12 +1,12 @@
 defmodule CombatlessWeb.ErrorView do
   use CombatlessWeb, :view
 
-  def render("404.html", _assigns) do
-    "Page not found"
+  def render("404.html", assigns) do
+    render(__MODULE__, "404.html", assigns)
   end
 
-  def render("500.html", _assigns) do
-    "Internal server error"
+  def render("500.html", assigns) do
+    render(__MODULE__, "500.html", assigns)
   end
 
   # In case no render clause matches or no
