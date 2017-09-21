@@ -44,6 +44,12 @@ $negative-color: #ff553c;
     color: $negative-color;
   }
 
+  @include media-breakpoint-up(lg) {
+    .table-responsive {
+      display: table;
+    }
+  }
+
   //  width: 100%;
   //  display: block;
   //  padding: 0;
