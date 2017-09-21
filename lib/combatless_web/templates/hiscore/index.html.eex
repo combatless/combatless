@@ -1,6 +1,6 @@
 <div class="container mt-3">
 	<nav class="nav hiscore-icons justify-content-between mb-2">
-		<%= list_skill_links @conn, @skill %>
+		<%= list_skill_links @conn, @page, @skill %>
 	</nav>
 	<h2 class="text-center display-3"><%= if @skill == "ehp", do: "EHP", else: String.capitalize(@skill) %> Hiscores</h2>
 	<div class="center-block hiscore-ranks">

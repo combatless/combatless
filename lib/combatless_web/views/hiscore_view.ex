@@ -17,10 +17,14 @@ defmodule CombatlessWeb.HiscoreView do
     if current_skill == page_skill, do: "nav-link active", else: "nav-link"
   end
 
-  def list_skill_links(conn, page_skill) do
+  def list_skill_links(conn, page, page_skill) do
     sprites_url = static_path(conn, "/images/skill_icons.svg")
     for skill <- @allowed_skills do
-      content_tag(:a, href: hiscore_path(conn, :index, skill: skill), class: active_class(skill, page_skill)) do
+      content_tag(
+        :a,
+        href: hiscore_path(conn, :index, skill: skill, page_size: page.page_size),
+        class: active_class(skill, page_skill)
+      ) do
         content_tag(:svg, tag(:use, [{:"xlink:href", sprites_url <> "#" <> skill}]), class: "skill-icon")
       end
     end
