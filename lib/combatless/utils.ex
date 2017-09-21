@@ -3,6 +3,7 @@ defmodule Combatless.Utils do
 
 
   @spec format_integer(integer) :: string
+  def format_integer(string) when is_string(string), do: string
   def format_integer(integer) do
     integer
     |> Integer.to_charlist()
