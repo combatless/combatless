@@ -1,8 +1,7 @@
 defmodule CombatlessWeb.ProfileView do
   use CombatlessWeb, :view
 
-  import Combatless.Utils, only: [format_integer: 1]
-
+  alias Combatless.Utils
   alias Combatless.Accounts.Profile
 
   @display_order ~w(overall cooking woodcutting fletching fishing
@@ -30,23 +29,29 @@ defmodule CombatlessWeb.ProfileView do
     if most_recently_fetched == "0 microseconds", do: "Updated just now.", else: "Updated #{most_recently_fetched} ago."
   end
 
-  def get_profile_skill_row_data(skill, sprites, %Profile{} = profile) do
+  def get_profile_skill_row_data(conn, skill, %Profile{} = profile) do
+    sprites = static_path(conn, "/images/skill_icons.svg")
     data = Map.get(profile.hiscores.most_recent, skill)
     content_tag(:tr) do
       [
-        content_tag(:td, content_tag(:svg, tag(:use, [{:"xlink:href", "#{sprites}\##{skill}"}]), class: "skill-icon")),
-        content_tag(:td, format_integer(get_rank(profile, skill)), class: "data"),
+        content_tag(
+          :td,
+          content_tag(:svg, tag(:use, [{:"xlink:href", "#{sprites}\##{skill}"}]), class: "skill-icon"),
+          class: "profile-data-icon"
+        ),
+        content_tag(:td, Utils.delimit(get_rank(profile, skill)), class: "data"),
         if data.virtual_level == data.level do
-          content_tag(:td, format_integer(data.level), class: "data")
+          content_tag(:td, Utils.delimit(data.level), class: "data")
         else
           content_tag(:td, class: "data") do
-            title = if skill == :overall, do: format_integer(data.level), else: "Virtual Level"
-            content_tag(:abbr, format_integer(data.virtual_level), class: "virtual-level-tooltip data", title: title)
+            title = if skill == :overall, do: Utils.delimit(data.level), else: "Virtual Level"
+            content_tag(:abbr, Utils.delimit(data.virtual_level), class: "virtual-level-tooltip data", title: title)
           end
         end,
-        content_tag(:td, format_integer(data.xp), class: "data"),
+        content_tag(:td, Utils.delimit(data.xp), class: "data"),
         content_tag(:td, get_diff_content(profile, skill, :xp), class: "data"),
-        content_tag(:td, get_diff_content(profile, skill, :ehp), class: "data", title: trunc(data.ehp))
+        content_tag(:td, get_diff_content(profile, skill, :ehp), class: "data", title: trunc(data.ehp)),
+        content_tag(:td, Utils.delimit(data.ehp), class: "data")
       ]
     end
   end
@@ -66,7 +71,7 @@ defmodule CombatlessWeb.ProfileView do
 
   def diff_color_tag(diff) when is_integer(diff) do
     diff
-    |> format_integer()
+    |> Utils.delimit()
     |> format_diff(diff)
   end
 

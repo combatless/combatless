@@ -1,17 +1,24 @@
 @import "variables";
 @import "bootstrap";
 
-.navbar {
+@import "utils";
+@import "typography";
+@import "navbar";
+@import "footer";
+@import "profile";
+@import "hiscores";
 
-  &-brand {
-    margin-right: 2rem;
-  }
+html {
+  position: relative;
+  min-height: 100%;
+}
 
-  &-nav .nav-item + .nav-item {
-    margin-left: 2rem;
-  }
 
-  &-nav .nav-link {
-    padding-top: 0.5rem;
-  }
+
+
+
+.skill-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: drop-shadow(0 0 5px lighten($body-bg, 15%));
 }

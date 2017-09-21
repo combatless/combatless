@@ -8,49 +8,14 @@
 	<meta name="author" content="">
 
 	<title>Combatless</title>
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<!--<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">-->
 	<link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono" rel="stylesheet">
 	<link rel="stylesheet" href='<%= static_path(@conn, "/css/app.css") %>'>
 </head>
 
 <body>
 <header>
-	<div class="navbar navbar-toggleable-md navbar-inverse bg-primary">
-		<div class="container">
-			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-			        data-target="#navbarCollapsible" aria-controls="navbarCollapsible"
-			        aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<a class="navbar-brand" href='<%= page_path @conn, :index %>'>Combatless</a>
-			<div class="collapse navbar-collapse" id="navbarCollapsible">
-				<ul class="navbar-nav mr-auto">
-					<%= nav_item @conn, "Hiscores", hiscore_path(@conn, :index) %>
-				</ul>
-				<form class="form-inline my-2 my-lg-0">
-					<div class="input-group">
-						<input class="form-control" type="text" placeholder="Username...">
-						<span class="input-group-btn">
-						<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-					</span>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!--        <div class="top-bar">
-						<div class="top-bar-title">
-							<a href=''></a>
-						</div>
-						<div class="top-bar-right">
-							<div>
-								<%= #get_search_bar_tags() %>
-							</div>
-						</div>
-
-					</div>-->
-
-
+	<%= render "navbar.html", conn: @conn %>
 </header>
 <main role="main">
 	<%= if get_flash @conn, :error do %>

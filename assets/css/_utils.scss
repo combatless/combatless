@@ -1,0 +1,6 @@
+@import "variables";
+
+.center-block {
+  @extend .d-flex;
+  @extend .justify-content-center;
+}

@@ -1,15 +1,18 @@
-<%= if Enum.empty? @changeset.errors do %>
-<div class="text-center newcomer">
-	<h2 class='account-name<%= unless @changeset.valid?, do: " alert" %>'>
-		<%= printable_account_name @changeset.changes.name %>
-	</h2>
-	<a class="button update-button" href='<%= profile_path(@conn, :create, @changeset.changes.name) %>'>Become a loser</a>
-</div>
-<% else %>
-<div class="callout alert small invalid-name">
-	<h3>You Fool</h3>
-	<%= for {_, error} <- @changeset.errors do %>
-	<p><%= "#{printable_account_name @changeset.changes.name} #{translate_error error}." %></p>
+<div class="container">
+	<%= if Enum.empty? @changeset.errors do %>
+	<div class="d-flex flex-column align-items-center mt-5">
+		<h2><%= printable_account_name @changeset.changes.name %></h2>
+		<a class="btn btn-primary" href='<%= profile_path(@conn, :create, @changeset.changes.name) %>'>
+			Become a loser
+		</a>
+	</div>
+	<% else %>
+	<div class="alert alert-danger text-center mt-5">
+		<h3 class="alert-heading">You Fool</h3>
+		<%= for {_, error} <- @changeset.errors do %>
+		<p><%= "#{printable_account_name @changeset.changes.name} #{translate_error error}." %></p>
+		<% end %>
+	</div>
 	<% end %>
 </div>
-<% end %>
+

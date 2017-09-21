@@ -1,0 +1,36 @@
+@import "variables";
+
+.hiscore-icons {
+  @include media-breakpoint-down(md) {
+    flex-wrap: wrap;
+  }
+
+  .nav-link {
+    padding: .1rem;
+  }
+  .skill-icon {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+.hiscore-ranks {
+  .table {
+    width: auto;
+  }
+
+  td {
+    border: none;
+  }
+}
+
+.hiscore-size {
+  a {
+    @extend .py-0;
+    border-right: 1px solid $body-color;
+  }
+
+  a:last-child {
+    border: none;
+  }
+}

@@ -1,0 +1,12 @@
+@import "variables";
+
+.monospace {
+  font-family: 'Droid Sans Mono', monospace;
+  font-size: $font-size-base;
+}
+
+.data {
+  @extend .monospace;
+  text-align: right;
+}
+

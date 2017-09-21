@@ -1,4 +1,4 @@
-<div class="welcome">
+<div class="container mt-5">
 	<p>I'll put up more functionality as the foundation under each feature gets finished,
 		I just wanted to have the server set up.</p>
 	<p>Currently, name changes are manual so don't expect them to complete instantly.  once a more automatic system

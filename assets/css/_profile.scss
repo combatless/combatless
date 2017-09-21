@@ -1,0 +1,185 @@
+@import "variables";
+
+$positive-color: #42ff8b;
+$negative-color: #ff553c;
+
+.profile-update {
+  @extend .center-block;
+  @extend .mx-auto;
+  @extend .my-2;
+  @include media-breakpoint-up(md) {
+    width: 10rem;
+  }
+}
+
+.profile-data-icon {
+  text-align: center;
+}
+
+.profile-data {
+  th {
+    text-align: center;
+  }
+
+  td {
+    @extend .align-middle;
+    @extend .p-2;
+    //padding: .2rem .8rem .2rem .2rem;
+  }
+
+  thead, tbody {
+    width: 100%;
+  }
+
+  abbr[title] {
+    text-decoration: none;
+    border-bottom: solid 1px $brand-info;
+  }
+
+  .positive {
+    color: $positive-color;
+  }
+
+  .negative {
+    color: $negative-color;
+  }
+
+  //  width: 100%;
+  //  display: block;
+  //  padding: 0;
+  //  border-spacing: 0;
+  //
+  //  thead, tbody {
+  //    border: none;
+  //  }
+  //
+  //  thead, tbody, th, td, tr {
+  //    display: inherit;
+  //  }
+  //
+  //  thead tr {
+  //    display: none;
+  //  }
+  //
+  //  tr:nth-child(odd) {
+  //    background-color: $body-background;
+  //  }
+  //
+  //  tr:nth-child(even) {
+  //    background-color: lighten($body-background, 3%);
+  //  }
+  //
+  //  tbody tr {
+  //    width: 100%;
+  //    border-bottom: 1px solid $steel-gray;
+  //
+  //    &:nth-child(even) {
+  //      //background-color: $body-background;
+  //      border-bottom: 1px solid $steel-gray;
+  //    }
+  //  }
+  //
+  //  tbody td {
+  //    border-bottom: 1px solid $steel-gray;
+  //    padding-right: 1rem;
+  //
+  //    &:before {
+  //      float: left;
+  //    }
+  //
+  //    &:first-child {
+  //      text-align: center;
+  //      border-bottom: none;
+  //      padding-top: .5rem;
+  //      padding-left: 1rem;
+  //      content: "Skill";
+  //    }
+  //
+  //    &:nth-of-type(2):before {
+  //      padding-left: 1rem;
+  //      content: "Rank";
+  //    }
+  //
+  //    &:nth-of-type(3):before {
+  //      padding-left: 1rem;
+  //      content: "Level";
+  //    }
+  //
+  //    &:nth-of-type(4):before {
+  //      padding-left: 1rem;
+  //      content: "XP";
+  //    }
+  //
+  //    &:nth-of-type(5):before {
+  //      padding-left: 1rem;
+  //      content: "Gains";
+  //    }
+  //
+  //    &:nth-of-type(6):before {
+  //      padding-left: 1rem;
+  //      content: "EHP";
+  //    }
+  //  }
+  //
+  //  abbr[title]:after {
+  //    content: " (" attr(title) ")";
+  //    border: none;
+  //  }
+  //
+  //  @include breakpoint(medium) {
+  //    thead {
+  //      display: table-header-group;
+  //      background: $body-background;
+  //      border-bottom: 1px solid $dark-gray;
+  //
+  //      tr {
+  //        display: table-row;
+  //        th {
+  //          text-align: center;
+  //          padding: .4rem;
+  //          font-weight: normal;
+  //          border-right: 1px solid $steel-gray;
+  //          border-top: 1px solid $steel-gray;
+  //
+  //          &:first-child {
+  //            border-left: 1px solid $steel-gray;
+  //          }
+  //        }
+  //      }
+  //    }
+  //
+  //    tbody {
+  //      display: table-row-group;
+  //    }
+  //
+  //    th, td {
+  //      display: table-cell;
+  //    }
+  //
+  //    tr {
+  //      display: table-row;
+  //    }
+  //
+  //    tbody td {
+  //      border-right: 1px solid $steel-gray;
+  //      padding: .2rem .8rem .2rem .2rem;
+  //
+  //      &:first-child {
+  //        border-left: 1px solid $steel-gray;
+  //      }
+  //
+  //      &:nth-of-type(n):before {
+  //        content: none;
+  //      }
+  //
+  //      abbr[title]:after {
+  //        content: "";
+  //      }
+  //    }
+  //
+  //    tr:last-child td {
+  //      border-bottom: 1px solid $steel-gray;
+  //    }
+  //
+  //  }
+}

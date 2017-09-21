@@ -1,63 +1,68 @@
-<%= if @profile.datapoints do %>
-<div class="tracker-header grid-x">
-  <div class="name-block small-12 medium-8 cell">
-    <h2 class="account-name"><%= printable_account_name @profile.account.name %></h2>
-    <span><%= trunc(@profile.hiscores.most_recent.overall.ehp) |> format_integer() %> ehp</span>
-  </div>
-  <div class="small-12 medium-4 cell">
-    <div class="update-block">
-      <div class="updated-at">
-        <%= if @profile.has_diff? do %>
-        <p><%= get_time_since_least_recent(@profile) %></p>
-        <p><%= get_time_since_most_recent(@profile) %></p>
-        <% else %>
-        <p>No datapoints within this time period.</p>
-        <% end %>
-      </div>
-      <a class="button update-button" href='<%= profile_path(@conn, :update, @profile.account.name) %>'>Update</a>
-    </div>
-  </div>
+<div class="container">
+	<%= if @profile.datapoints do %>
+	<div class="row mt-5 mb-3">
+		<div class="col-12 col-md-8 d-flex align-items-center">
+			<h2 class="display-3">
+				<%= printable_account_name @profile.account.name %>
+				<small class="text-muted">
+					<%= trunc(@profile.hiscores.most_recent.overall.ehp) |> Utils.delimit() %> ehp
+				</small>
+			</h2>
+		</div>
+		<div class="col-12 col-md-4">
+			<div class="update-block">
+				<div class="text-center">
+					<%= if @profile.has_diff? do %>
+					<p class="m-0"><%= get_time_since_least_recent(@profile) %></p>
+					<p class="m-0"><%= get_time_since_most_recent(@profile) %></p>
+					<% else %>
+					<p class="m-0">No datapoints within this time period.</p>
+					<% end %>
+				</div>
+				<a class="btn btn-success profile-update" href='<%= profile_path(@conn, :update, @profile.account.name) %>'>
+					Update
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 col-md-8 profile-data">
+			<table class="table table-bordered table-sm table-responsive">
+				<thead>
+				<tr>
+					<th>Skill</th>
+					<th>Rank</th>
+					<th>Level</th>
+					<th>Xp</th>
+					<th>Xp Gained</th>
+					<th>EHP Gained</th>
+					<th>EHP</th>
+				</tr>
+				</thead>
+				<tbody>
+				<%= for skill <- get_display_order(), do: get_profile_skill_row_data(@conn, skill, @profile) %>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-12 col-md-4 profile-sidebar">
+			<div class="callout small name-change">
+				<h5>Change Username</h5>
+				<form action="<%= name_change_path(@conn, :request) %>">
+					<input type="hidden" name="from" value="<%= @profile.account.name %>">
+					<input type="text" placeholder="To..." name="to">
+					<input type="submit" class="button">
+				</form>
+			</div>
+		</div>
+	</div>
+	<% else %>
+	<div class="d-flex flex-column align-items-center mt-5">
+		<h2 class="account-name"><%= printable_account_name @profile.account.name %></h2>
+		<div class="update-block">
+			<a class="btn btn-primary update-button"
+			   href='<%= profile_path(@conn, :update, @profile.account.name) %>'>Update</a>
+		</div>
+	</div>
+	<% end %>
 </div>
-<% sprites = static_path(@conn, "/images/skill_icons.svg") %>
-<div class="grid-x">
-  <div class="small-12 medium-8 cell tracker-container">
-    <table class="tracker">
-      <thead>
-      <tr>
-        <th>Skill</th>
-        <th>Rank</th>
-        <th>Level</th>
-        <th>Xp</th>
-        <th>Gains</th>
-        <th>EHP</th>
-      </tr>
-      </thead>
-      <tbody>
-      <%= for skill <- get_display_order(), do: get_profile_skill_row_data(skill, sprites, @profile) %>
-      </tbody>
-    </table>
-  </div>
-	<div class="small-12 medium-offset-1 medium-3 cell account-tools">
-    <div class="callout small name-change">
-      <h5>Change Username</h5>
-      <form action="<%= name_change_path(@conn, :request) %>">
-        <input type="hidden" name="from" value="<%= @profile.account.name %>">
-        <input type="text" placeholder="To..." name="to">
-        <input type="submit" class="button">
-      </form>
-    </div>
-  </div>
-</div>
-<% else %>
-<h2 class="account-name"><%= printable_account_name @profile.account.name %></h2>
-<div class="grid-x">
-  <div class="cell">
-    <p></p>
-  </div>
-  <div class="cell">
-    <div class="update-block">
-      <a class="button update-button" href='<%= profile_path(@conn, :update, @profile.account.name) %>'>Update</a>
-    </div>
-  </div>
-</div>
-<% end %>
+

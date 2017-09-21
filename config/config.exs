@@ -24,7 +24,7 @@ config :logger, :console,
 
 config :scrivener_html,
   routes_helper: Combatless.Router.Helpers,
-  view_style: :foundation
+  view_style: :bootstrap_v4
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
