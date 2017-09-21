@@ -16,7 +16,8 @@ use Mix.Config
 config :combatless, CombatlessWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4000],
   url: [host: "combatless.com", port: 443],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  version: Mix.Project.config[:version]
 
 # Do not print debug messages in production
 config :logger, level: :info
