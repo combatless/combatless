@@ -63,8 +63,8 @@ defmodule CombatlessWeb.ProfileView do
           end
         end,
         content_tag(:td, Utils.delimit(data.xp), class: "data"),
-        content_tag(:td, get_diff(profile, data.xp), class: "data"),
-        content_tag(:td, get_diff(profile, data.ehp), class: "data"),
+        content_tag(:td, get_diff(profile, skill,:xp), class: "data"),
+        content_tag(:td, get_diff(profile, skill,:ehp), class: "data"),
         content_tag(:td, Utils.delimit(data.ehp), class: "data")
       ]
     end
@@ -75,9 +75,14 @@ defmodule CombatlessWeb.ProfileView do
     if ranks[skill] > 0, do: ranks[skill], else: "?"
   end
 
-  defp get_diff(%Profile{has_diff?: false}, _), do: content_tag(:span, "0", class: "diff")
-  defp get_diff(%Profile{has_diff?: true}, value) do
-    content_tag(:span, Utils.delimit(value), class: diff_class(value))
+  defp get_diff(%Profile{has_diff?: false}, _, _), do: content_tag(:span, "0", class: "diff")
+  defp get_diff(%Profile{has_diff?: true} = profile, skill, value) do
+    data =
+      profile.hiscores.diff
+      |> Map.get(skill)
+      |> Map.get(value)
+
+    content_tag(:span, Utils.delimit(data), class: diff_class(data))
   end
 
   defp diff_class(value) when is_bitstring(value), do: "diff"
