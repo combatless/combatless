@@ -1,5 +1,8 @@
 @import "variables";
 
+$positive-color: #42ff8b;
+$negative-color: #ff553c;
+
 .monospace {
   font-family: 'Droid Sans Mono', monospace;
   font-size: $font-size-base;
@@ -10,3 +13,17 @@
   text-align: right;
 }
 
+.virtual-level-tooltip {
+  border-bottom: solid 1px $brand-info;
+}
+
+.positive {
+  color: $positive-color;
+  &.diff:before {
+    content: "+";
+  }
+}
+
+.negative {
+  color: $negative-color;
+}

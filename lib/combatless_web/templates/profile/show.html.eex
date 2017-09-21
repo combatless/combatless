@@ -1,7 +1,7 @@
 <div class="container">
 	<%= if @profile.datapoints do %>
-	<div class="row mt-5 mb-3">
-		<div class="col-12 col-md-8 d-flex align-items-center">
+	<div class="profile-header row mt-5 mb-3">
+		<div class="profile-about col-12 col-lg-8 d-flex align-items-end">
 			<h2 class="display-3">
 				<%= printable_account_name @profile.account.name %>
 				<small class="text-muted">
@@ -9,7 +9,7 @@
 				</small>
 			</h2>
 		</div>
-		<div class="col-12 col-md-4">
+		<div class="col-12 col-lg-4">
 			<div class="update-block">
 				<div class="text-center">
 					<%= if @profile.has_diff? do %>
@@ -26,8 +26,8 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-12 col-md-8 profile-data">
-			<table class="table table-bordered table-sm table-responsive">
+		<div class="col-12 col-lg-8 profile-data">
+			<table class="table table-striped table-bordered table-sm">
 				<thead>
 				<tr>
 					<th>Skill</th>
@@ -44,7 +44,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="col-12 col-md-4 profile-sidebar">
+		<div class="col-12 col-lg-4 profile-sidebar">
 			<div class="callout small name-change">
 				<h5>Change Username</h5>
 				<form action="<%= name_change_path(@conn, :request) %>">

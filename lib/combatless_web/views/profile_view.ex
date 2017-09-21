@@ -37,7 +37,12 @@ defmodule CombatlessWeb.ProfileView do
         content_tag(
           :td,
           content_tag(:svg, tag(:use, [{:"xlink:href", "#{sprites}\##{skill}"}]), class: "skill-icon"),
-          class: "profile-data-icon"
+          class: "profile-data-icon",
+          data: [
+            title: skill |> Atom.to_string() |> String.capitalize(),
+            toggle: "tooltip",
+            placement: "top"
+          ]
         ),
         content_tag(:td, Utils.delimit(get_rank(profile, skill)), class: "data"),
         if data.virtual_level == data.level do
@@ -45,12 +50,21 @@ defmodule CombatlessWeb.ProfileView do
         else
           content_tag(:td, class: "data") do
             title = if skill == :overall, do: Utils.delimit(data.level), else: "Virtual Level"
-            content_tag(:abbr, Utils.delimit(data.virtual_level), class: "virtual-level-tooltip data", title: title)
+            content_tag(
+              :span,
+              Utils.delimit(data.virtual_level),
+              class: "data virtual-level-tooltip",
+              data: [
+                title: title,
+                toggle: "tooltip",
+                placement: "left"
+              ]
+            )
           end
         end,
         content_tag(:td, Utils.delimit(data.xp), class: "data"),
-        content_tag(:td, get_diff_content(profile, skill, :xp), class: "data"),
-        content_tag(:td, get_diff_content(profile, skill, :ehp), class: "data", title: trunc(data.ehp)),
+        content_tag(:td, get_diff(profile, data.xp), class: "data"),
+        content_tag(:td, get_diff(profile, data.ehp), class: "data"),
         content_tag(:td, Utils.delimit(data.ehp), class: "data")
       ]
     end
@@ -61,33 +75,17 @@ defmodule CombatlessWeb.ProfileView do
     if ranks[skill] > 0, do: ranks[skill], else: "?"
   end
 
-  defp get_diff_content(%Profile{has_diff?: false}, _, _), do: content_tag(:span, "0", class: "diff")
-  defp get_diff_content(%Profile{has_diff?: true} = profile, skill, field) do
-    profile.hiscores.diff
-    |> Map.get(skill)
-    |> Map.get(field)
-    |> diff_color_tag()
+  defp get_diff(%Profile{has_diff?: false}, _), do: content_tag(:span, "0", class: "diff")
+  defp get_diff(%Profile{has_diff?: true}, value) do
+    content_tag(:span, Utils.delimit(value), class: diff_class(value))
   end
 
-  def diff_color_tag(diff) when is_integer(diff) do
-    diff
-    |> Utils.delimit()
-    |> format_diff(diff)
-  end
-
-  def diff_color_tag(diff) when is_float(diff) do
-    case diff do
-      diff when diff == 0 -> "0"
-      diff -> :erlang.float_to_binary diff, decimals: 2
-    end
-    |> format_diff(diff)
-  end
-
-  defp format_diff(diff_str, diff) do
+  defp diff_class(value) when is_bitstring(value), do: "diff"
+  defp diff_class(value) do
     cond do
-      diff == 0 -> content_tag :span, diff_str, class: "diff"
-      diff > 0 -> content_tag :span, "+#{diff_str}", class: "diff positive"
-      diff < 0 -> content_tag :span, diff_str, class: "diff negative"
+      value == 0 -> "diff"
+      value > 0 -> "diff positive"
+      value < 0 -> "diff negative"
     end
   end
 end

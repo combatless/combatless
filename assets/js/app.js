@@ -14,6 +14,9 @@
 import "phoenix_html"
 import "bootstrap"
 
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
+});
 // Import local files
 //
 // Local files can be imported directly using relative
