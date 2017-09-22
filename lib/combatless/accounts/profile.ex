@@ -14,5 +14,6 @@ defmodule Combatless.Accounts.Profile do
               starting_time: nil
             },
             ranks: nil,
+            period: nil,
             account: nil
 end

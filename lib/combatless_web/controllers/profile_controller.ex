@@ -55,6 +55,7 @@ defmodule CombatlessWeb.ProfileController do
        end
   end
 
+  def show(conn, %{"name" => name, "period" => "day"}), do: show(conn, period: :day, name: name)
   def show(conn, %{"name" => name, "period" => "week"}), do: show(conn, period: :week, name: name)
   def show(conn, %{"name" => name, "period" => "month"}), do: show(conn, period: :month, name: name)
   def show(conn, %{"name" => name, "period" => "year"}), do: show(conn, period: :year, name: name)

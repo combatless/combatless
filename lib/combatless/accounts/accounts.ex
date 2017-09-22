@@ -242,6 +242,7 @@ defmodule Combatless.Accounts do
             least_recent: least_recent_hiscore,
             diff: hiscore_diff
           },
+          period: period,
           ranks: Combatless.Hiscores.get_ranks(account)
         }
     end
@@ -306,6 +307,7 @@ defmodule Combatless.Accounts do
     {most_recent, least_recent}
   end
 
+  defp period_to_arbitrary_days(:day), do: [days: -1]
   defp period_to_arbitrary_days(:week), do: [days: -7]
   defp period_to_arbitrary_days(:month), do: [days: -30]
   defp period_to_arbitrary_days(:year), do: [days: -365]

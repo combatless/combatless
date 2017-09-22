@@ -29,7 +29,6 @@ defmodule CombatlessWeb.Router do
     get "/accounts/:name", ProfileController, :show
     get "/accounts/:name/create", ProfileController, :create
     get "/accounts/:name/update", ProfileController, :update
-    get "/accounts/:name/:period", ProfileController, :show
     get "/namechange", NameChangeController, :request
     post "/namechange", NameChangeController, :create_request
     get "/hiscores", HiscoreController, :index

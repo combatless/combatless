@@ -1,58 +1,12 @@
 <div class="container">
 	<%= if @profile.datapoints do %>
-	<div class="profile-header row mt-5 mb-3">
-		<div class="profile-about col-12 col-lg-8 d-flex align-items-end">
-			<h2 class="display-3">
-				<%= printable_account_name @profile.account.name %>
-				<small class="text-muted">
-					<%= trunc(@profile.hiscores.most_recent.overall.ehp) |> Utils.delimit() %> ehp
-				</small>
-			</h2>
-		</div>
-		<div class="col-12 col-lg-4">
-			<div class="update-block">
-				<div class="text-center">
-					<%= if @profile.has_diff? do %>
-					<p class="m-0"><%= get_time_since_least_recent(@profile) %></p>
-					<p class="m-0"><%= get_time_since_most_recent(@profile) %></p>
-					<% else %>
-					<p class="m-0">No datapoints within this time period.</p>
-					<% end %>
-				</div>
-				<a class="btn btn-success profile-update" href='<%= profile_path(@conn, :update, @profile.account.name) %>'>
-					Update
-				</a>
-			</div>
-		</div>
-	</div>
+	<%= render "_header.html", conn: @conn, profile: @profile %>
 	<div class="row">
 		<div class="col-12 col-lg-8 profile-data">
-			<table class="table table-striped table-bordered table-sm">
-				<thead>
-				<tr>
-					<th>Skill</th>
-					<th>Rank</th>
-					<th>Level</th>
-					<th>Xp</th>
-					<th>Xp Gained</th>
-					<th>EHP Gained</th>
-					<th>EHP</th>
-				</tr>
-				</thead>
-				<tbody>
-				<%= for skill <- get_display_order(), do: get_profile_skill_row_data(@conn, skill, @profile) %>
-				</tbody>
-			</table>
+			<%= render "_datatable.html", conn: @conn, profile: @profile %>
 		</div>
 		<div class="col-12 col-lg-4 profile-sidebar">
-			<div class="callout small name-change">
-				<h5>Change Username</h5>
-				<form action="<%= name_change_path(@conn, :request) %>">
-					<input type="hidden" name="from" value="<%= @profile.account.name %>">
-					<input type="text" placeholder="To..." name="to">
-					<input type="submit" class="button">
-				</form>
-			</div>
+			<%= render "_sidebars.html", conn: @conn, profile: @profile %>
 		</div>
 	</div>
 	<% else %>

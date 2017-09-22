@@ -22,6 +22,17 @@
   text-align: center;
 }
 
+.profile-sidebar .card {
+  @extend .mb-4;
+}
+
+.profile-periods .nav-link {
+  @extend .p-0;
+  @extend .mx-auto;
+}
+
+
+// Table styles
 .profile-data {
   th {
     text-align: center;
@@ -32,6 +43,7 @@
     @extend .p-2;
   }
 
+  // Make the table turn into a vertical table of blocks of rows for mobile
   @include media-breakpoint-down(md) {
     thead {
       display: none;

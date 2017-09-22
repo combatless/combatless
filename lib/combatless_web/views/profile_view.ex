@@ -9,7 +9,21 @@ defmodule CombatlessWeb.ProfileView do
                     agility thieving farming runecraft hunter
                     construction)a
 
+  @allowed_periods ~w(day week month year all)a
+
   def get_display_order(), do: @display_order
+
+  def get_period_link(conn, profile, period) do
+    class = if period == profile.period, do: "nav-link disabled", else: "nav-link"
+    link = profile_path(conn, :show, profile.account.name, period: period)
+    content_tag(:a, String.capitalize("#{period}"), href: link,class: class)
+  end
+
+  def get_period_links(conn, profile) do
+    for period <- @allowed_periods do
+      get_period_link(conn, profile, period)
+    end
+  end
 
   def get_time_since_least_recent(profile) do
     least_recently_fetched =
@@ -39,7 +53,9 @@ defmodule CombatlessWeb.ProfileView do
           content_tag(:svg, tag(:use, [{:"xlink:href", "#{sprites}\##{skill}"}]), class: "skill-icon"),
           class: "profile-data-icon",
           data: [
-            title: skill |> Atom.to_string() |> String.capitalize(),
+            title: skill
+                   |> Atom.to_string()
+                   |> String.capitalize(),
             toggle: "tooltip",
             placement: "top"
           ]
@@ -63,8 +79,8 @@ defmodule CombatlessWeb.ProfileView do
           end
         end,
         content_tag(:td, Utils.delimit(data.xp), class: "data"),
-        content_tag(:td, get_diff(profile, skill,:xp), class: "data"),
-        content_tag(:td, get_diff(profile, skill,:ehp), class: "data"),
+        content_tag(:td, get_diff(profile, skill, :xp), class: "data"),
+        content_tag(:td, get_diff(profile, skill, :ehp), class: "data"),
         content_tag(:td, Utils.delimit(data.ehp), class: "data")
       ]
     end

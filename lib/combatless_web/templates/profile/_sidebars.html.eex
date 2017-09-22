@@ -1,0 +1,23 @@
+<div class="card text-center">
+	<h4 class="card-header">Period</h4>
+	<div class="card-block">
+		<nav class="nav profile-periods justify-content-between">
+			<%= get_period_links @conn, @profile %>
+		</nav>
+	</div>
+</div>
+
+<div class="card text-center">
+	<h4 class="card-header">Change Username</h4>
+	<div class="card-block">
+		<form class="form-inline" action="<%= name_change_path(@conn, :request) %>">
+			<input type="hidden" name="from" value="<%= @profile.account.name %>">
+			<div class="input-group">
+				<input class="form-control" type="text" placeholder="To..." required maxlength=12 name="to">
+				<span class="input-group-btn">
+					<button class="btn btn-primary" type="submit">Request</button>
+				</span>
+			</div>
+		</form>
+	</div>
+</div>
