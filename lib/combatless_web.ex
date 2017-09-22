@@ -39,6 +39,7 @@ defmodule CombatlessWeb do
 
       import CombatlessWeb.Router.Helpers
       import CombatlessWeb.ErrorHelpers
+      import CombatlessWeb.InputHelpers
       import CombatlessWeb.Gettext
       import Combatless.Accounts, only: [format_account_name: 1, printable_account_name: 1]
     end

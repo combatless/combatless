@@ -1,4 +1,4 @@
-<div class="name-change-request">
+<div class="center-block">
 	<%= form_for @changeset, @action, fn f -> %>
 	<%= if @changeset.action do %>
 	<div class="alert alert-danger">
@@ -6,26 +6,12 @@
 	</div>
 	<% end %>
 
-	<div class="form-group">
-		<%= label f, :from, class: "control-label" %>
-		<%= text_input f, :from, class: "form-control", placeholder: "From...", value: @from %>
-		<%= error_tag f, :from %>
-	</div>
+	<%= input f, :from %>
+	<%= input f, :to %>
+
 
 	<div class="form-group">
-		<%= label f, :to, class: "control-label" %>
-		<%= text_input f, :to, class: "form-control", placeholder: "To...", value: @to %>
-		<%= error_tag f, :to %>
-	</div>
-
-	<!--  <div class="form-group">
-			<%= label f, :is_valid, class: "control-label" %>
-			<%= checkbox f, :is_valid, class: "checkbox" %>
-			<%= error_tag f, :is_valid %>
-		</div>-->
-
-	<div class="form-group">
-		<%= submit "Submit", class: "button primary" %>
+		<%= submit "Submit", class: "btn btn-primary" %>
 	</div>
 	<% end %>
 </div>

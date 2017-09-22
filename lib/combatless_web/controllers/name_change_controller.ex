@@ -4,11 +4,14 @@ defmodule CombatlessWeb.NameChangeController do
   alias Combatless.Accounts
   alias Combatless.Accounts.NameChange
 
+  def request(conn, %{"from" => from, "to" => to}) do
+    changeset = Accounts.change_name_change(%NameChange{from: from, to: to, is_valid: false})
+    render(conn, "request.html", changeset: changeset)
+  end
+
   def request(conn, params) do
-    from = Map.get(params, "from") || ""
-    to = Map.get(params, "to") || ""
     changeset = Accounts.change_name_change(%NameChange{})
-    render(conn, "request.html", from: from, to: to, changeset: changeset)
+    render(conn, "request.html", changeset: changeset)
   end
 
   def create_request(conn, %{"name_change" => name_change_params}) do

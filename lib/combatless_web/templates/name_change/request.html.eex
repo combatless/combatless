@@ -1,5 +1,4 @@
-<h2 class="text-center">Request Username Change</h2>
-
-
-
-<%= render "form.html", Map.put(assigns, :action, name_change_path(@conn, :create_request)) %>
+<div class="container mt-5">
+	<h2 class="text-center">Request Username Change</h2>
+	<%= render "form.html", Map.put(assigns, :action, name_change_path(@conn, :create_request)) %>
+</div>
