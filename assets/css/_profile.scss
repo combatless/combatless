@@ -24,6 +24,7 @@
 
 .profile-sidebar .card {
   @extend .mb-4;
+  @extend .p-0;
 }
 
 .profile-periods .nav-link {
@@ -44,7 +45,7 @@
   }
 
   // Make the table turn into a vertical table of blocks of rows for mobile
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(xs) {
     thead {
       display: none;
     }
