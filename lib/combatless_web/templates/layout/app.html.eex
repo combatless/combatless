@@ -19,13 +19,19 @@
 </header>
 <main role="main">
 	<%= if get_flash @conn, :error do %>
-	<div class="shoutbox callout alert">
-		<p><%= get_flash @conn, :error %></p>
+	<div class="container my-3 alert alert-danger alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<%= get_flash @conn, :error %>
 	</div>
 	<% end %>
 	<%= if get_flash @conn, :info do %>
-	<div class="shoutbox callout success">
-		<p><%= get_flash @conn, :info %></p>
+	<div class="container my-3 alert alert-info alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<%= get_flash @conn, :info %>
 	</div>
 	<% end %>
 	<%= render @view_module, @view_template, assigns %>

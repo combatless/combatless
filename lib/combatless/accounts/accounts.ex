@@ -63,6 +63,14 @@ defmodule Combatless.Accounts do
     Repo.get_by(Account, active)
   end
 
+  def get_account(name) do
+    Repo.get_by(Account, name: name)
+  end
+
+  def get_combatless_account(name) do
+    Repo.get_by(Account, name: name, is_combatless: true)
+  end
+
 
   @doc """
   Creates a account.
@@ -153,6 +161,16 @@ defmodule Combatless.Accounts do
 
   def activate_account(account, attrs \\ @active_account_attrs) do
     update_account(account, attrs)
+  end
+
+  def check_conflicting_accounts(name) do
+    name
+    |> format_account_name()
+    |> get_combatless_account()
+    |> case do
+         nil -> :ok
+         account -> {:error, :active_account_exists}
+       end
   end
 
   def get_all_accounts_last_fetched_at() do
