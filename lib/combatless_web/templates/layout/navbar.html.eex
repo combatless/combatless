@@ -1,10 +1,10 @@
 <div class="navbar navbar-toggleable-md navbar-inverse bg-primary">
+	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+	        data-target="#navbarCollapsible" aria-controls="navbarCollapsible"
+	        aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
 	<div class="container">
-		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-		        data-target="#navbarCollapsible" aria-controls="navbarCollapsible"
-		        aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
 		<a class="navbar-brand" href='<%= page_path @conn, :index %>'>Combatless</a>
 		<div class="collapse navbar-collapse" id="navbarCollapsible">
 			<ul class="navbar-nav mr-auto">
