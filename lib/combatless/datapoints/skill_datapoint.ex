@@ -18,7 +18,6 @@ defmodule Combatless.Datapoints.SkillDatapoint do
     field :xp, :integer
     belongs_to :datapoint, Datapoint
     belongs_to :skill, Skill
-    has_one :hiscore, Combatless.Hiscores.Hiscore
 
     timestamps()
   end

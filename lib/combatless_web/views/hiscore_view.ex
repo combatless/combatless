@@ -42,7 +42,7 @@ defmodule CombatlessWeb.HiscoreView do
             content_tag(:a, printable_account_name(name), href: profile_path(conn, :show, name)),
             class: "hiscore-name"
           ),
-          content_tag(:td, hiscore_value(hiscore.skill_datapoint, skill), class: "data font-weight-bold")
+          content_tag(:td, hiscore_value(hiscore.data, skill), class: "data font-weight-bold")
 
         ]
       end

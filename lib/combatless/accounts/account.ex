@@ -5,6 +5,7 @@ defmodule Combatless.Accounts.Account do
   alias Combatless.Accounts.Account
   alias Combatless.Datapoints.Datapoint
   alias Combatless.SiteUsers.SiteUser
+  alias Combatless.Hiscores.Hiscore
 
   @timestamps_opts [
     type: Timex.Ecto.DateTime,
@@ -19,7 +20,7 @@ defmodule Combatless.Accounts.Account do
     field :old_name, :string
     field :settings, :map, null: false, default: %{}
     has_many :datapoints, Datapoint
-    has_many :hiscores, Combatless.Hiscores.Hiscore
+    field :hiscores, {:array, Hiscore}, virtual: true
 
     timestamps()
   end

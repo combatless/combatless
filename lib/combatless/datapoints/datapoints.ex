@@ -122,6 +122,15 @@ defmodule Combatless.Datapoints do
     Repo.all(Skill)
   end
 
+  def get_unique_account_datapoints() do
+    from(d in Datapoint,
+      distinct: d.account_id,
+      order_by: [
+        desc: d.fetched_at
+      ]
+    )
+  end
+
 
   def skill_datapoints_query() do
     from sd in SkillDatapoint,

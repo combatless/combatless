@@ -2,7 +2,6 @@ defmodule CombatlessWeb.HiscoreController do
   use CombatlessWeb, :controller
 
   alias Combatless.Hiscores
-  alias Combatless.Hiscores.Hiscore
 
   @allowed_skills ~w(overall cooking woodcutting fletching fishing
                     firemaking crafting smithing mining herblore
@@ -12,7 +11,7 @@ defmodule CombatlessWeb.HiscoreController do
   def index(conn, %{"skill" => skill} = params) when skill in @allowed_skills do
     page =
       skill
-      |> Hiscores.active_hiscores_data_query()
+      |> Hiscores.active_hiscores_query()
       |> Combatless.Repo.paginate(params)
 
     render(conn, "index.html", page: page, skill: skill)

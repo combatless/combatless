@@ -199,17 +199,20 @@ defmodule Combatless.Accounts do
     end
   end
 
+  def latest_account_datapoint_query(%Account{} = account) do
+    from d in Datapoints.full_datapoint_query(),
+         where: d.is_valid == true and d.account_id == ^account.id,
+         order_by: [
+           desc: d.fetched_at
+         ],
+         limit: 1
+  end
+
 
   def get_latest_account_datapoint(%Account{} = account) do
-    Repo.one(
-      from d in Datapoints.full_datapoint_query(),
-      where: d.is_valid == true and d.account_id == ^account.id,
-      order_by: [
-        desc: d.fetched_at
-      ],
-      limit: 1,
-      select: d
-    )
+    account
+    |> latest_account_datapoint_query()
+    |> Repo.one()
   end
 
 
@@ -229,7 +232,6 @@ defmodule Combatless.Accounts do
       %Datapoint{fetched_at: time, account_id: account.id, ehp_version: ehp_version}
       |> Datapoints.from_hiscore(hiscore_with_ehp)
       |> Repo.insert()
-      |> Combatless.Hiscores.generate_hiscores()
     end
   end
 
