@@ -1,14 +1,5 @@
 @import "variables";
 
-.profile-about {
-  @include media-breakpoint-down(md) {
-    text-align: center;
-    h2 {
-      width: 100%;
-    }
-  }
-}
-
 .profile-update {
   @extend .center-block;
   @extend .mx-auto;

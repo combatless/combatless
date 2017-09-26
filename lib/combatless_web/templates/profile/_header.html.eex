@@ -1,11 +1,11 @@
 <div class="profile-header row mt-5 mb-3">
-	<div class="profile-about col-12 col-lg-8 d-flex align-items-end">
-		<h2 class="display-3">
-			<%= printable_account_name @profile.account.name %>
-			<small class="text-muted">
+	<div class="col-12 col-lg-8 d-flex align-items-end">
+		<div class="d-flex flex-column w-100 h-100 justify-content-center align-items-center">
+			<h2 class="display-3"><%= printable_account_name @profile.account.name %></h2>
+			<h3 class="text-muted">
 				<%= trunc(@profile.hiscores.most_recent.overall.ehp) |> Utils.delimit() %> ehp
-			</small>
-		</h2>
+			</h3>
+		</div>
 	</div>
 	<div class="col-12 col-lg-4">
 		<div class="update-block">
