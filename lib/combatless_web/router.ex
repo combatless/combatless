@@ -21,6 +21,10 @@ defmodule CombatlessWeb.Router do
     plug CombatlessWeb.Auth.Narnode, allow: [:admin, :mod, :user]
   end
 
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
+
   scope "/", CombatlessWeb do
     pipe_through :browser # Use the default browser stack
 
@@ -40,6 +44,12 @@ defmodule CombatlessWeb.Router do
     delete "/logout", AuthController, :delete
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
+  end
+
+  scope "/api", CombatlessWeb do
+    pipe_through :api
+
+    get "/ehp/:id", GraphController, :ehp
   end
 
   scope "/mod", CombatlessWeb.Admin, as: :mod do

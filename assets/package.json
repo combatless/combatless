@@ -6,7 +6,9 @@
 		"watch": "brunch watch --stdin"
 	},
 	"dependencies": {
+		"axios": "^0.16.2",
 		"bootstrap": "4.0.0-alpha.6",
+		"chart.js": "^2.7.0",
 		"foundation-sites": "^6.4.3",
 		"jquery": "^3.2.1",
 		"phoenix": "file:../deps/phoenix",

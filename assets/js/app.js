@@ -23,3 +23,6 @@ $(function () {
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+const loaded_event = new Event('combatless_loaded');
+window.dispatchEvent(loaded_event);

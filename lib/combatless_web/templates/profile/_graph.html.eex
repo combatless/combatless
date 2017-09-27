@@ -1,0 +1,12 @@
+<div class="card text-center mb-3">
+	<h4 class="card-header">Weekly EHP Graph</h4>
+	<div class="card-block">
+		<canvas id="profile_graph"></canvas>
+	</div>
+</div>
+
+<script>
+	run(function () {
+		require('js/graph').default('<%= graph_path(@conn, :ehp, @profile.account.id) %>');
+	})
+</script>
