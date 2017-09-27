@@ -1,20 +1,16 @@
 <div class="container mt-5">
-	<p>I'll put up more functionality as the foundation under each feature gets finished,
-		I just wanted to have the server set up.</p>
 	<p>Currently, name changes are manual so don't expect them to complete instantly.  once a more automatic system
 	is in place, they should be easier to change.  a better protip: stop changing your fucking names</p>
 	<h2>Short-term TODO:</h2>
 	<ul>
-		<li><s>Name Changing (Manual)</s></li>
-		<li><s>Automatic Updates</s></li>
-		<li><s>Hiscores</s></li>
+		<li>Records</li>
+		<li>Current tops</li>
 		<li>Name Changing (semi-automatic)</li>
 	</ul>
-	<p>I'm moving this weekend so time will be limited.</p>
 	<h3>Contact</h3>
 	<p>Poke me in discord if you're in the level 3, discord.
 		Otherwise yell at me on twitter (<a href="https://twitter.com/buttwize">@buttwize</a>) or bully me in game.
-		rsn: bitwise</p>
+		rsn: <a href="https://cbl.moe/bitwise">bitwise</a></p>
 	<h3>Things I Appreciate</h3>
 	<ul>
 		<li>feedback</li>
