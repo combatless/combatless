@@ -84,6 +84,7 @@ defmodule Combatless.Hiscores do
     |> Enum.reduce(%{}, fn hiscore, acc ->
       skill = hiscore.skill.slug
       rank = if hiscore.data.rank > 0, do: get_rank(account, skill), else: -1
+      acc = if skill == "overall", do: Map.put(acc, :ehp, get_rank(account, "ehp")), else: acc
       Map.put(acc, String.to_atom(skill), rank)
     end)
   end

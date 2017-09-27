@@ -16,7 +16,7 @@ defmodule CombatlessWeb.ProfileView do
   def get_period_link(conn, profile, period) do
     class = if period == profile.period, do: "nav-link disabled", else: "nav-link"
     link = profile_path(conn, :show, profile.account.name, period: period)
-    content_tag(:a, String.capitalize("#{period}"), href: link,class: class)
+    content_tag(:a, String.capitalize("#{period}"), href: link, class: class)
   end
 
   def get_period_links(conn, profile) do
@@ -87,9 +87,8 @@ defmodule CombatlessWeb.ProfileView do
   end
 
   defp get_rank(%Profile{ranks: nil}), do: "?"
-  defp get_rank(%Profile{ranks: ranks}, skill) do
-    if ranks[skill] > 0, do: ranks[skill], else: "?"
-  end
+  defp get_rank(%Profile{ranks: ranks}, :overall), do: if ranks[:ehp] > 0, do: ranks[:ehp], else: "?"
+  defp get_rank(%Profile{ranks: ranks}, skill), do: if ranks[skill] > 0, do: ranks[skill], else: "?"
 
   defp get_diff(%Profile{has_diff?: false}, _, _), do: content_tag(:span, "0", class: "diff")
   defp get_diff(%Profile{has_diff?: true} = profile, skill, value) do
