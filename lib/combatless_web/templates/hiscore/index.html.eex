@@ -11,7 +11,7 @@
 		</table>
 	</div>
 	<div class="d-flex flex-column align-items-center">
-		<%= pagination_links @page, skill: @skill %>
+		<%= pagination_links @page, skill: @skill, page_size: @page.page_size %>
 		<nav class="nav justify-content-center hiscore-size">
 			<%= hiscore_size_navs @conn, @skill, @page.page_size %>
 		</nav>
