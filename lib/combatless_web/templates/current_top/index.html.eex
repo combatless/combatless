@@ -20,38 +20,7 @@
 
 	<!-- CURRENT TOPS -->
 	<div class="row">
-		<div id="day" class="col d-flex flex-column align-items-center hiscore-ranks">
-			<h3>Day</h3>
-			<table class="table table-hover table-sm">
-				<tbody>
-				<%= build_current_top_list @conn, @current_tops.day, @skill %>
-				</tbody>
-			</table>
-		</div>
-		<div id="week" class="col d-flex flex-column align-items-center hiscore-ranks">
-			<h3>Week</h3>
-			<table class="table table-hover table-sm">
-				<tbody>
-				<%= build_current_top_list @conn, @current_tops.week, @skill %>
-				</tbody>
-			</table>
-		</div>
-		<div id="month" class="col d-flex flex-column align-items-center hiscore-ranks">
-			<h3>Month</h3>
-			<table class="table table-hover table-sm">
-				<tbody>
-				<%= build_current_top_list @conn, @current_tops.month, @skill %>
-				</tbody>
-			</table>
-		</div>
-		<div id="year" class="col d-flex flex-column align-items-center hiscore-ranks">
-			<h3>Year</h3>
-			<table class="table table-hover table-sm">
-				<tbody>
-				<%= build_current_top_list @conn, @current_tops.year, @skill %>
-				</tbody>
-			</table>
-		</div>
+		<%= build_current_top_tables @conn, @current_tops, @skill %>
 	</div>
 
 	<!-- NAVIGATION -->
