@@ -131,6 +131,17 @@ defmodule Combatless.Datapoints do
     )
   end
 
+  def get_unique_skill_datapoints() do
+    from(sd in SkillDatapoint,
+      join: d in assoc(sd, :datapoint),
+      distinct: d.account_id,
+      order_by: [
+        desc: d.fetched_at
+      ],
+      select: sd
+    )
+  end
+
 
   def skill_datapoints_query() do
     from sd in SkillDatapoint,

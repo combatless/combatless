@@ -42,11 +42,18 @@ defmodule CombatlessWeb.HiscoreView do
             content_tag(:a, printable_account_name(name), href: profile_path(conn, :show, name)),
             class: "hiscore-name"
           ),
-          content_tag(:td, hiscore_value(hiscore.data, skill), class: "data font-weight-bold")
-
+          content_tag(:td, hiscore_value(hiscore.data, skill), class: "data"),
+          content_tag(:td, current_top(hiscore.current), class: "data")
         ]
       end
     end
+  end
+
+  defp current_top(current) do
+    [
+      content_tag(:span, Utils.delimit(current), class: "diff #{if current > 0, do: "positive"}"),
+      content_tag(:span, " week")
+    ]
   end
 
   defp hiscore_value(data, skill) do
