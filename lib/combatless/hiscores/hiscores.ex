@@ -34,6 +34,17 @@ defmodule Combatless.Hiscores do
     }
   end
 
+  def hiscore_page_query(skill) do
+    from(
+      d in active_hiscores_query(skill),
+      join: current_top in subquery(CurrentTops.current_top_subquery(skill)),
+      on: current_top.account_id == d.account_id,
+      select_merge: %{
+        current: current_top.value
+      }
+    )
+  end
+
   def active_hiscores_query(skill) do
     real_skill = if skill == "ehp", do: "overall", else: skill
 
@@ -42,12 +53,9 @@ defmodule Combatless.Hiscores do
       join: sd in assoc(d, :skill_datapoints),
       join: s in assoc(sd, :skill),
       join: a in assoc(d, :account),
-      join: current_top in subquery(CurrentTops.current_top_subquery(skill)),
-      on: current_top.account_id == d.account_id,
-      where: s.slug == ^real_skill and a.is_combatless == true and sd.rank > 0,# and a.id == current_top.account_id,
+      where: s.slug == ^real_skill and a.is_combatless == true and sd.rank > 0,
       select: %Hiscore{
         account: a,
-        current: current_top.value,
         datapoint: d,
         data: sd,
         skill: s

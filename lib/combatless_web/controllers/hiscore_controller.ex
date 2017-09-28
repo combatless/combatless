@@ -11,7 +11,7 @@ defmodule CombatlessWeb.HiscoreController do
   def index(conn, %{"skill" => skill} = params) when skill in @allowed_skills do
     page =
       skill
-      |> Hiscores.active_hiscores_query()
+      |> Hiscores.hiscore_page_query()
       |> Combatless.Repo.paginate(params)
 
     render(conn, "index.html", page: page, skill: skill)
