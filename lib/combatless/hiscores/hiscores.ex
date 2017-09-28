@@ -10,6 +10,7 @@ defmodule Combatless.Hiscores do
   alias Combatless.Accounts
   alias Combatless.Accounts.Account
   alias Ecto.Multi
+  alias Combatless.CurrentTops
 
   alias Combatless.Hiscores.Hiscore
 
@@ -41,7 +42,7 @@ defmodule Combatless.Hiscores do
       join: sd in assoc(d, :skill_datapoints),
       join: s in assoc(sd, :skill),
       join: a in assoc(d, :account),
-      join: current_top in subquery(current_top_query(skill)),
+      join: current_top in subquery(CurrentTops.current_top_subquery(skill)),
       on: current_top.account_id == d.account_id,
       where: s.slug == ^real_skill and a.is_combatless == true and sd.rank > 0,# and a.id == current_top.account_id,
       select: %Hiscore{
@@ -104,116 +105,4 @@ defmodule Combatless.Hiscores do
          end
        )
   end
-
-  def get_unique_skill_datapoints(skill) do
-    from(
-      sd in Datapoints.get_unique_skill_datapoints(),
-      join: s in assoc(sd, :skill),
-      join: d in assoc(sd, :datapoint),
-      join: a in assoc(d, :account),
-      where: s.slug == ^skill and a.is_combatless == true and sd.rank > 0,
-    )
-  end
-
-  def current_top_query(skill), do: current_top_query(skill, Timex.shift(Timex.now(), days: -7))
-  def current_top_query(skill, starting_time) do
-    real_skill = if skill == "ehp", do: "overall", else: skill
-    skill_type = skill_type(skill)
-    from(
-      sd in SkillDatapoint,
-      join: old_sd in subquery(least_recent_skill_datapoints_query(skill, starting_time)),
-      join: s in assoc(sd, :skill),
-      join: d in assoc(sd, :datapoint),
-      on: old_sd.account_id == d.account_id,
-      distinct: d.account_id,
-      where: s.slug == ^real_skill and d.fetched_at > ^starting_time,
-      order_by: [
-        desc: d.fetched_at
-      ],
-      select: %{
-        account_id: d.account_id
-      }
-    )
-    |> select_skill_value_fragment(skill)
-  end
-
-  defp select_skill_value_fragment(query, "ehp") do
-    from [sd, old_sd] in query,
-         select_merge: %{
-           value: fragment("? - ?", sd.ehp, old_sd.value)
-         }
-  end
-
-  defp select_skill_value_fragment(query, "overall") do
-    from [sd, old_sd] in query,
-         select_merge: %{
-           value: fragment("? - ?", sd.virtual_level, old_sd.value)
-         }
-  end
-
-  defp select_skill_value_fragment(query, skill) do
-    from [sd, old_sd] in query,
-         select_merge: %{
-           value: fragment("? - ?", sd.xp, old_sd.value)
-         }
-  end
-
-  def least_recent_skill_datapoints_query(skill, starting_time) do
-    real_skill = if skill == "ehp", do: "overall", else: skill
-    from(
-      sd in SkillDatapoint,
-      join: s in assoc(sd, :skill),
-      join: d in assoc(sd, :datapoint),
-      distinct: d.account_id,
-      where: s.slug == ^real_skill and d.fetched_at > ^starting_time and sd.rank > 0,
-      order_by: [
-        asc: d.fetched_at
-      ],
-      select: %{
-        account_id: d.account_id,
-      }
-    )
-    |> select_skill_value(skill)
-  end
-
-  def oldest_skill_datapoint(account_id, skill, starting_time) do
-    from(
-      sd in SkillDatapoint,
-      join: s in assoc(sd, :skill),
-      join: d in assoc(sd, :datapoint),
-      where: d.account_id == ^account_id and s.slug == ^skill and d.fetched_at > ^starting_time,
-      order_by: [
-        asc: d.fetched_at
-      ],
-      limit: 1,
-      select: sd
-    )
-  end
-
-  defp select_skill_value(query, "ehp"), do: from sd in query, select_merge: %{value: sd.ehp}
-  defp select_skill_value(query, "overall"), do: from sd in query, select_merge: %{value: sd.virtual_level}
-  defp select_skill_value(query, skill), do: from sd in query, select_merge: %{value: sd.xp}
-
-  def get_current_week(account, skill) do
-    real_skill = if skill == "ehp", do: "overall", else: skill
-    skill_type = skill_type(skill)
-    now = Timex.now()
-    starting_time = Timex.shift(now, days: -7)
-    from(
-      sd in SkillDatapoint,
-      join: sd2 in subquery(oldest_skill_datapoint(account.id, real_skill, starting_time)),
-      join: s in assoc(sd, :skill),
-      join: d in assoc(sd, :datapoint),
-      where: d.account_id == ^account.id and s.slug == ^real_skill,
-      order_by: [
-        desc: d.fetched_at
-      ],
-      limit: 1,
-      select: fragment("? - ?", sd.ehp, sd2.ehp)
-    )
-    |> Repo.one()
-  end
-
-  def skill_type(:ehp), do: :ehp
-  def skill_type(skill), do: :xp
 end

@@ -1,0 +1,64 @@
+<div class="container mt-3">
+	<!-- NAVIGATION -->
+	<nav class="nav hiscore-icons justify-content-between mb-2">
+		<%= list_skill_links @conn, @page, @skill %>
+	</nav>
+	<h2 class="text-center display-3">
+		<%= if @skill == "ehp", do: "EHP", else: String.capitalize(@skill) %> Current Top
+	</h2>
+	<div class="card text-center hidden-xl-up mb-3 mx-auto" style="width: 250px">
+		<h4 class="card-header">Period</h4>
+		<div class="card-block">
+			<nav class="nav profile-periods justify-content-around">
+				<a href="#day">Day</a>
+				<a href="#week">Week</a>
+				<a href="#month">Month</a>
+				<a href="#year">Year</a>
+			</nav>
+		</div>
+	</div>
+
+	<!-- CURRENT TOPS -->
+	<div class="row">
+		<div id="day" class="col d-flex flex-column align-items-center hiscore-ranks">
+			<h3>Day</h3>
+			<table class="table table-hover table-sm">
+				<tbody>
+				<%= build_current_top_list @conn, @current_tops.day, @skill %>
+				</tbody>
+			</table>
+		</div>
+		<div id="week" class="col d-flex flex-column align-items-center hiscore-ranks">
+			<h3>Week</h3>
+			<table class="table table-hover table-sm">
+				<tbody>
+				<%= build_current_top_list @conn, @current_tops.week, @skill %>
+				</tbody>
+			</table>
+		</div>
+		<div id="month" class="col d-flex flex-column align-items-center hiscore-ranks">
+			<h3>Month</h3>
+			<table class="table table-hover table-sm">
+				<tbody>
+				<%= build_current_top_list @conn, @current_tops.month, @skill %>
+				</tbody>
+			</table>
+		</div>
+		<div id="year" class="col d-flex flex-column align-items-center hiscore-ranks">
+			<h3>Year</h3>
+			<table class="table table-hover table-sm">
+				<tbody>
+				<%= build_current_top_list @conn, @current_tops.year, @skill %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- NAVIGATION -->
+	<div class="d-flex flex-column align-items-center">
+		<%= pagination_links @page, skill: @skill, page_size: @page.page_size %>
+		<nav class="nav justify-content-center hiscore-size">
+			<%= hiscore_size_navs @conn, @skill, @page.page_size %>
+		</nav>
+	</div>
+</div>

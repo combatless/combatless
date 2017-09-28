@@ -9,6 +9,7 @@
 		<div class="collapse navbar-collapse" id="navbarCollapsible">
 			<ul class="navbar-nav mr-auto">
 				<%= nav_item @conn, "Hiscores", hiscore_path(@conn, :index) %>
+				<%= nav_item @conn, "Current Tops", current_top_path(@conn, :index) %>
 			</ul>
 			<form class="form-inline my-2 my-lg-0" action="<%= profile_path(@conn, :index) %>">
 				<div class="input-group">

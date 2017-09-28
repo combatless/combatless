@@ -1,4 +1,4 @@
-defmodule CombatlessWeb.HiscoreView do
+defmodule CombatlessWeb.CurrentTopView do
   use CombatlessWeb, :view
 
   import Scrivener.HTML
@@ -22,7 +22,7 @@ defmodule CombatlessWeb.HiscoreView do
     for skill <- @allowed_skills do
       content_tag(
         :a,
-        href: hiscore_path(conn, :index, skill: skill, page_size: page.page_size),
+        href: current_top_path(conn, :index, skill: skill, page_size: page.page_size),
         class: active_class(skill, page_skill)
       ) do
         content_tag(:svg, tag(:use, [{:"xlink:href", sprites_url <> "#" <> skill}]), class: "skill-icon")
@@ -30,10 +30,10 @@ defmodule CombatlessWeb.HiscoreView do
     end
   end
 
-  def build_hiscore_list(conn, %Scrivener.Page{} = page, skill) do
+  def build_current_top_list(conn, %Scrivener.Page{} = page, skill) do
     base_index = (page.page_size * (page.page_number - 1)) + 1
-    for {hiscore, rank} <- Enum.with_index(page.entries, base_index) do
-      name = hiscore.account.name
+    for {current, rank} <- Enum.with_index(page.entries, base_index) do
+      name = current.account.name
       content_tag(:tr) do
         [
           content_tag(:td, "#{rank}.", class: "data"),
@@ -42,24 +42,9 @@ defmodule CombatlessWeb.HiscoreView do
             content_tag(:a, printable_account_name(name), href: profile_path(conn, :show, name)),
             class: "hiscore-name"
           ),
-          content_tag(:td, hiscore_value(hiscore.data, skill), class: "data"),
-          content_tag(:td, Utils.delimit(hiscore.current), class: "data diff #{if hiscore.current > 0, do: "positive"}")
+          content_tag(:td, Utils.delimit(current.value), class: "data"),
         ]
       end
-    end
-  end
-
-  defp hiscore_value(data, skill) do
-    case skill do
-      "overall" ->
-        Utils.delimit(data.virtual_level)
-      "ehp" ->
-        value =
-          data.ehp
-          |> trunc()
-          |> Utils.delimit()
-      _ ->
-        Utils.delimit(data.xp)
     end
   end
 
@@ -68,7 +53,7 @@ defmodule CombatlessWeb.HiscoreView do
       content_tag(
         :a,
         size,
-        href: hiscore_path(conn, :index, skill: skill, page_size: size),
+        href: current_top_path(conn, :index, skill: skill, page_size: size),
         class: (if size == page_size, do: "nav-link disabled", else: "nav-link")
       )
     end

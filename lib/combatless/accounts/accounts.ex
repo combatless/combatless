@@ -6,6 +6,7 @@ defmodule Combatless.Accounts do
   @active_account_attrs %{is_combatless: true, is_on_hiscores: true, is_abandoned: false}
 
   import Ecto.Query, warn: false
+  import Combatless.Utils, only: [period_to_arbitrary_days: 1]
   alias Combatless.Repo
 
   alias Combatless.Accounts.Account
@@ -327,10 +328,6 @@ defmodule Combatless.Accounts do
     {most_recent, least_recent}
   end
 
-  defp period_to_arbitrary_days(:day), do: [days: -1]
-  defp period_to_arbitrary_days(:week), do: [days: -7]
-  defp period_to_arbitrary_days(:month), do: [days: -30]
-  defp period_to_arbitrary_days(:year), do: [days: -365]
 
   #def get_account_profile(account, time_period) do
   #  datapoints = Repo.all(from dps in Datapoints.full_datapoint_query(account))
