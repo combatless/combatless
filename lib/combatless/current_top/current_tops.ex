@@ -45,6 +45,9 @@ defmodule Combatless.CurrentTops do
       join: a in assoc(d, :account),
       on: old_sd.account_id == d.account_id,
       distinct: d.account_id,
+      order_by: [
+        desc: d.fetched_at
+      ],
       where: s.slug == ^real_skill and d.fetched_at > ^starting_time,
       select: %{
         datapoint_id: d.id
