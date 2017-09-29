@@ -240,6 +240,7 @@ defmodule Combatless.Accounts do
       %Datapoint{fetched_at: time, account_id: account.id, ehp_version: ehp_version}
       |> Datapoints.from_hiscore(hiscore_with_ehp)
       |> Repo.insert()
+      |> Combatless.Hiscores.generate_hiscores()
     end
   end
 

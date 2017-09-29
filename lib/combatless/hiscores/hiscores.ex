@@ -5,58 +5,79 @@ defmodule Combatless.Hiscores do
 
   import Ecto.Query, warn: false
   alias Combatless.Repo
-  alias Combatless.Datapoints
-  alias Combatless.Datapoints.SkillDatapoint
-  alias Combatless.Accounts
-  alias Combatless.Datapoints.Datapoint
-  alias Combatless.Accounts.Account
-  alias Ecto.Multi
   alias Combatless.CurrentTops
-
+  alias Combatless.Accounts.Account
   alias Combatless.Hiscores.Hiscore
+  alias Combatless.Datapoints.Datapoint
+  alias Combatless.Datapoints.SkillDatapoint
 
-  def get_rank(account_id, skill, skill_datapoint) do
-    real_skill = if skill == "ehp", do: "overall", else: skill
 
-    skill
-    |> active_hiscores_query()
-    |> rank_order(skill, skill_datapoint)
-    |> Repo.aggregate(:count, :account_id)
-    |> Kernel.+(1)
+  def upsert_hiscore(attrs \\ %{}) do
+    %Hiscore{}
+    |> Hiscore.changeset(attrs)
+    |> Repo.insert(conflict_target: [:account_id, :skill_id], on_conflict: :replace_all)
   end
 
-  def rank_order(query, "ehp", sd) do
-    from hiscores in subquery(query), where: hiscores.value > ^sd.ehp
+  def preload_hiscores(%Account{} = account) do
+    Repo.preload(account, [hiscores: [:skill]])
   end
 
-  def rank_order(query, _, sd) do
-    from hiscores in subquery(query), where: hiscores.value > ^sd.xp
+  @spec generate_hiscores(%Datapoint{} | {atom, any}) :: {:ok | :error, any}
+  def generate_hiscores({:error, error}), do: {:error, error}
+  def generate_hiscores({:ok, %Datapoint{} = datapoint}), do: generate_hiscores(datapoint)
+  def generate_hiscores(%Datapoint{} = datapoint) do
+    Repo.transaction(fn -> do_generate_hiscores(datapoint) end)
   end
+
+  defp do_generate_hiscores(%Datapoint{} = datapoint) do
+    Enum.each(
+      datapoint.skill_datapoints,
+      fn skill_datapoint ->
+        upsert_hiscore(
+          %{
+            account_id: datapoint.account_id,
+            skill_id: skill_datapoint.skill_id,
+            value: get_hiscore_value(skill_datapoint)
+          }
+        )
+      end
+    )
+  end
+
+  def get_hiscore_value(%SkillDatapoint{skill_id: 1} = skill_datapoint), do: skill_datapoint.ehp
+  def get_hiscore_value(%SkillDatapoint{} = skill_datapoint), do: skill_datapoint.xp
 
   def get_ranks(%Account{} = account) do
-    datapoint = Accounts.get_latest_account_datapoint(account)
-
-    Enum.reduce(datapoint.skill_datapoints, %{}, fn sd, acc ->
-      skill = sd.skill.slug
-      rank = if sd.rank > 0, do: get_rank(account, skill, sd), else: -1
-      acc = if skill == "overall", do: Map.put(acc, :ehp, get_rank(account.id, "ehp", sd)), else: acc
-      Map.put(acc, String.to_atom(skill), rank)
+    account
+    |> preload_hiscores()
+    |> Map.get(:hiscores)
+    |> Enum.reduce(%{}, fn hiscore, acc ->
+      skill = hiscore.skill.slug
+      Map.put(acc, String.to_atom(skill), get_rank(hiscore.value, skill))
     end)
+    |> IO.inspect()
+  end
+
+  def get_rank(value, skill) do
+    skill
+    |> active_hiscores_query()
+    |> where([h], h.value > ^value)
+    |> Repo.aggregate(:count, :id)
+    |> Kernel.+(1)
   end
 
   def hiscore_page_query(skill) do
     from(
-      a in Accounts.active_accounts_query(),
-      join: hiscore in subquery(active_hiscores_query(skill)),
+      h in active_hiscores_query(skill),
+      join: a in assoc(h, :account),
       join: current_top in subquery(CurrentTops.current_top_query(skill)),
-      on: hiscore.account_id == a.id and current_top.account_id == a.id,
+      on: h.account_id == current_top.account_id,
+      preload: [:account],
       order_by: [
-        desc: hiscore.value
+        desc: h.value
       ],
-      select: %Hiscore{
-        account: a,
-        current: current_top.value,
-        value: hiscore.value
+      select_merge: %{
+        current: current_top.value
       }
     )
   end
@@ -65,29 +86,13 @@ defmodule Combatless.Hiscores do
     real_skill = if skill == "ehp", do: "overall", else: skill
 
     from(
-      d in Datapoint,
-      join: sd in assoc(d, :skill_datapoints),
-      join: s in assoc(sd, :skill),
-      group_by: d.account_id,
-      where: s.slug == ^real_skill and d.is_valid == true,
-      select: %{
-        account_id: d.account_id
-      }
+      h in Hiscore,
+      join: s in assoc(h, :skill),
+      join: a in assoc(h, :account),
+      where: s.slug == ^real_skill and a.is_combatless == true and a.is_on_hiscores == true,
     )
-    |> select_hiscore_value(skill)
   end
 
-  defp select_hiscore_value(query, "ehp") do
-    from [d, sd] in query,
-         select_merge: %{
-           value: max(sd.ehp)
-         }
-  end
 
-  defp select_hiscore_value(query, skill) do
-    from [d, sd] in query,
-         select_merge: %{
-           value: max(sd.xp)
-         }
-  end
+
 end

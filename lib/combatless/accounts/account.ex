@@ -20,7 +20,7 @@ defmodule Combatless.Accounts.Account do
     field :old_name, :string
     field :settings, :map, null: false, default: %{}
     has_many :datapoints, Datapoint
-    field :hiscores, {:array, Hiscore}, virtual: true
+    has_many :hiscores, Hiscore
 
     timestamps()
   end
