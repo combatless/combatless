@@ -37,7 +37,7 @@ defmodule Combatless.Hiscores do
   def hiscore_page_query(skill) do
     from(
       d in active_hiscores_query(skill),
-      join: current_top in subquery(CurrentTops.current_top_subquery(skill)),
+      join: current_top in subquery(CurrentTops.current_top_query(skill)),
       on: current_top.account_id == d.account_id,
       select_merge: %{
         current: current_top.value
