@@ -4,7 +4,7 @@ defmodule Combatless.Mixfile do
   def project do
     [
       app: :combatless,
-      version: "0.12.1",
+      version: "0.12.3",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
