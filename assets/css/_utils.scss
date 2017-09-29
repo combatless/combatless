@@ -1,5 +1,10 @@
 @import "variables";
 
+// fixes bug where sometime part of card block is the page bg color
+.card-block {
+  background-color: $card-bg;
+}
+
 .center-block {
   @extend .d-flex;
   @extend .justify-content-center;

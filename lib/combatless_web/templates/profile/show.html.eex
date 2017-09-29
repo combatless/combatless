@@ -4,12 +4,12 @@
 	<div class="row">
 		<div class="col-12 col-lg-8 profile-data">
 			<%= render "_datatable.html", conn: @conn, profile: @profile %>
-			<%= render "_graph.html", conn: @conn, profile: @profile %>
 		</div>
 		<div class="col-12 col-lg-4 profile-sidebar">
 			<%= render "_sidebars.html", conn: @conn, profile: @profile %>
 		</div>
 	</div>
+	<%= render "_graph.html", conn: @conn, profile: @profile %>
 	<% else %>
 	<div class="d-flex flex-column align-items-center mt-5">
 		<h2 class="account-name"><%= printable_account_name @profile.account.name %></h2>

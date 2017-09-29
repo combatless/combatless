@@ -23,12 +23,6 @@
   @extend .mx-auto;
 }
 
-// fixes bug where sometime bottom of card block is the page bg color
-.profile-sidebar .card-block {
-  background-color: $card-bg;
-}
-
-
 // Table styles
 .profile-data {
   th {
