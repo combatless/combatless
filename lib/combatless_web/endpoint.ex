@@ -1,6 +1,5 @@
 defmodule CombatlessWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :combatless
-  use ExDebugToolbar.Phoenix
 
   socket "/socket", CombatlessWeb.UserSocket
 
