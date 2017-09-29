@@ -164,6 +164,13 @@ defmodule Combatless.Accounts do
     update_account(account, attrs)
   end
 
+  def active_accounts_query() do
+    from(
+      a in Account,
+      where: a.is_combatless == true and a.is_on_hiscores == true and a.is_abandoned == false
+    )
+  end
+
   def check_conflicting_accounts(name) do
     name
     |> format_account_name()

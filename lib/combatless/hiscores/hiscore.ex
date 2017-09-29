@@ -1,7 +1,5 @@
 defmodule Combatless.Hiscores.Hiscore do
   defstruct account: nil,
-            datapoint: nil,
-            data: nil,
-            skill: nil,
-            current: nil
+            current: nil,
+            value: nil
 end

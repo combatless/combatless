@@ -42,25 +42,17 @@ defmodule CombatlessWeb.HiscoreView do
             content_tag(:a, printable_account_name(name), href: profile_path(conn, :show, name)),
             class: "hiscore-name"
           ),
-          content_tag(:td, hiscore_value(hiscore.data, skill), class: "data"),
+          content_tag(:td, hiscore_value(hiscore.value), class: "data"),
           content_tag(:td, Utils.delimit(hiscore.current), class: "data diff #{if hiscore.current > 0, do: "positive"}")
         ]
       end
     end
   end
 
-  defp hiscore_value(data, skill) do
-    case skill do
-      "overall" ->
-        Utils.delimit(data.virtual_level)
-      "ehp" ->
-        value =
-          data.ehp
-          |> trunc()
-          |> Utils.delimit()
-      _ ->
-        Utils.delimit(data.xp)
-    end
+  defp hiscore_value(value) do
+    value
+    |> trunc()
+    |> Utils.delimit()
   end
 
   def hiscore_size_navs(conn, skill, page_size) do

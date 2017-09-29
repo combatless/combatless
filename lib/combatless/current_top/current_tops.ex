@@ -2,17 +2,16 @@ defmodule Combatless.CurrentTops do
 
   import Ecto.Query, warn: false
   import Combatless.Utils, only: [period_to_arbitrary_days: 1]
-  alias Combatless.Accounts.Account
+  alias Combatless.Accounts
   alias Combatless.Datapoints.Datapoint
 
   def current_top(skill, period) do
     starting_time = Timex.shift(Timex.now(), period_to_arbitrary_days(period))
 
     from(
-      a in Account,
+      a in Accounts.active_accounts_query(),
       join: current_top in subquery(current_top_query(skill, starting_time)),
       on: a.id == current_top.account_id,
-      where: a.is_combatless == true,
       order_by: [
         desc: current_top.value
       ],
@@ -31,7 +30,7 @@ defmodule Combatless.CurrentTops do
       join: sd in assoc(d, :skill_datapoints),
       join: s in assoc(sd, :skill),
       group_by: d.account_id,
-      where: d.fetched_at > ^starting_time and s.slug == ^real_skill,
+      where: d.fetched_at > ^starting_time and s.slug == ^real_skill and d.is_valid == true,
       select: %{
         account_id: d.account_id
       }
