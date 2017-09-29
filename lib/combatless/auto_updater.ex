@@ -3,7 +3,7 @@ defmodule Combatless.AutoUpdater do
 
   alias Combatless.Accounts
 
-  @interval 1 * 500#5 * 1000 # Every 5 seconds
+  @interval 1 * 500_000000000000#5 * 1000 # Every 5 seconds
   @minimum_time 30 * 1000#2 * 60 * 60 * 1000 # Two Hours
 
 
