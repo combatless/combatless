@@ -1,5 +1,6 @@
 defmodule CombatlessWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :combatless
+  use ExDebugToolbar.Phoenix
 
   socket "/socket", CombatlessWeb.UserSocket
 
@@ -8,7 +9,7 @@ defmodule CombatlessWeb.Endpoint do
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :combatless, gzip: false,
+    at: "/", from: :combatless, gzip: true,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the

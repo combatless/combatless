@@ -30,16 +30,25 @@ config :combatless, CombatlessWeb.Endpoint,
 # configured to run both http and https servers on
 # different ports.
 
+config :ex_debug_toolbar,
+       enable: true
+
+config :phoenix,
+       :template_engines,
+       eex: ExDebugToolbar.Template.EExEngine,
+       exs: ExDebugToolbar.Template.ExsEngine
+
 # Watch static and templates for browser reloading.
 config :combatless, CombatlessWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
-      ~r{priv/gettext/.*(po)$},
-      ~r{lib/combatless_web/views/.*(ex)$},
-      ~r{lib/combatless_web/templates/.*(eex)$}
-    ]
-  ]
+       instrumenters: [ExDebugToolbar.Collector.InstrumentationCollector],
+       live_reload: [
+         patterns: [
+           ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+           ~r{priv/gettext/.*(po)$},
+           ~r{lib/combatless_web/views/.*(ex)$},
+           ~r{lib/combatless_web/templates/.*(eex)$}
+         ]
+       ]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

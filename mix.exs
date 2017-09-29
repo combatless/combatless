@@ -52,6 +52,7 @@ defmodule Combatless.Mixfile do
       {:scrivener, "~> 2.3"},
       {:scrivener_ecto, "~> 1.2"},
       {:scrivener_html, "~> 1.7"},
+      {:ex_debug_toolbar, "~> 0.4.0"},
       {:edeliver, "~> 1.4.4"},
       {:distillery, ">= 0.8.0"}
     ]
