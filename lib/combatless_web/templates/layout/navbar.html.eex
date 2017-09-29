@@ -7,11 +7,11 @@
 	<div class="container">
 		<a class="navbar-brand" href='<%= page_path @conn, :index %>'>Combatless</a>
 		<div class="collapse navbar-collapse" id="navbarCollapsible">
-			<ul class="navbar-nav mr-auto">
+			<ul class="navbar-nav mr-auto text-center">
 				<%= nav_item @conn, "Hiscores", hiscore_path(@conn, :index) %>
 				<%= nav_item @conn, "Current Tops", current_top_path(@conn, :index) %>
 			</ul>
-			<form class="form-inline my-2 my-lg-0" action="<%= profile_path(@conn, :index) %>">
+			<form class="form-inline my-2 my-lg-0 center-block" action="<%= profile_path(@conn, :index) %>">
 				<div class="input-group">
 					<input class="form-control" type="text" placeholder="Username..." required maxlength=12 name="name">
 					<span class="input-group-btn">
