@@ -1,3 +1,5 @@
+<% user = @conn.assigns[:current_user] %>
+
 <div class="navbar navbar-toggleable-md navbar-inverse bg-primary">
 	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
 	        data-target="#navbarCollapsible" aria-controls="navbarCollapsible"
@@ -7,11 +9,11 @@
 	<div class="container">
 		<a class="navbar-brand" href='<%= page_path @conn, :index %>'>Combatless</a>
 		<div class="collapse navbar-collapse" id="navbarCollapsible">
-			<ul class="navbar-nav mr-auto text-center">
+			<ul class="navbar-nav text-center">
 				<%= nav_item @conn, "Hiscores", hiscore_path(@conn, :index) %>
 				<%= nav_item @conn, "Current Tops", current_top_path(@conn, :index) %>
 			</ul>
-			<form class="form-inline my-2 my-lg-0 center-block" action="<%= profile_path(@conn, :index) %>">
+			<form class="form-inline my-2 my-lg-0 mx-auto center-block" action="<%= profile_path(@conn, :index) %>">
 				<div class="input-group">
 					<input class="form-control" type="text" placeholder="Username..." required maxlength=12 name="name">
 					<span class="input-group-btn">
@@ -19,6 +21,24 @@
 					</span>
 				</div>
 			</form>
+			<%= if user do %>
+			<ul class="navbar-nav ml-3 text-center">
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle font-weight-bold user-display" data-toggle="dropdown">
+						<img class="rounded-circle" src="<%= user.avatar_url %>" alt="Twitter Avatar">
+						<span><%= user.slug %></span>
+					</a>
+					<div class="dropdown-menu">
+						<div class="btn-group center-block" role="group" aria-label="Account Options">
+							<%= link("profile", to: profile_path(@conn, :show, "bitwise"), class: "btn btn-primary disabled") %>
+							<%= link("delete", to: auth_path(@conn, :delete), method: :delete, class: "btn btn-danger") %>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<% else %>
+			<a href='<%= auth_path(@conn, :request, "twitter") %>' class="btn btn-info">Sign in</a>
+			<% end %>
 		</div>
 	</div>
 </div>

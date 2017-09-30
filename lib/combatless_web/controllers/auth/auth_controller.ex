@@ -5,6 +5,7 @@ defmodule CombatlessWeb.Auth.AuthController do
   alias Ueberauth.Strategy.Helpers
   alias Combatless.SiteUsers.SiteUser
   alias Combatless.SiteUsers
+  alias CombatlessWeb.Auth.SiteUserSession
 
   def request(conn, _params) do
     redirect conn, to: Helpers.callback_url(conn)
@@ -18,7 +19,7 @@ defmodule CombatlessWeb.Auth.AuthController do
     |> case do
          {:ok, %SiteUser{} = site_user} ->
            conn
-           |> put_session(:current_user, SiteUsers.get_site_user_safe_info(site_user))
+           |> SiteUserSession.login_user(site_user)
            |> put_flash(:info, "Login successful.")
            |> redirect(to: page_path(conn, :index))
          {:error, _} -> failed_login(conn)
@@ -27,7 +28,7 @@ defmodule CombatlessWeb.Auth.AuthController do
 
   def delete(conn, _params) do
     conn
-    |> delete_session(:current_user)
+    |> SiteUserSession.logout()
     |> put_flash(:info, "Logged out.")
     |> redirect(to: page_path(conn, :index))
   end

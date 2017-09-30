@@ -1,18 +1,15 @@
 @import "variables";
-/*
 
-.navbar {
 
-  &-brand {
-    margin-right: 2rem;
-  }
-
-  &-nav .nav-item + .nav-item {
-    margin-left: 2rem;
-  }
-
-  &-nav .nav-link {
-    padding-top: 0.5rem;
+.user-display {
+  img {
+    width: 24px;
+    height: 24px
   }
 }
-*/
+
+.user-sign-in {
+  img {
+    height: 22px;
+  }
+}
