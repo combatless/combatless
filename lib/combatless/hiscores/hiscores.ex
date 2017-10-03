@@ -6,6 +6,7 @@ defmodule Combatless.Hiscores do
   import Ecto.Query, warn: false
   alias Combatless.Repo
   alias Combatless.CurrentTops
+  alias Combatless.Accounts
   alias Combatless.Accounts.Account
   alias Combatless.Hiscores.Hiscore
   alias Combatless.Datapoints.Datapoint
@@ -38,6 +39,7 @@ defmodule Combatless.Hiscores do
             account_id: datapoint.account_id,
             skill_id: skill_datapoint.skill_id,
             value: get_hiscore_value(skill_datapoint),
+            ehp: skill_datapoint.ehp,
             rank: skill_datapoint.rank
           }
         )
@@ -45,7 +47,7 @@ defmodule Combatless.Hiscores do
     )
   end
 
-  def get_hiscore_value(%SkillDatapoint{skill_id: 1} = skill_datapoint), do: skill_datapoint.ehp
+  def get_hiscore_value(%SkillDatapoint{skill_id: 1} = skill_datapoint), do: skill_datapoint.virtual_level
   def get_hiscore_value(%SkillDatapoint{} = skill_datapoint), do: skill_datapoint.xp
 
   def get_ranks(%Account{} = account) do
@@ -56,16 +58,18 @@ defmodule Combatless.Hiscores do
       skill = hiscore.skill.slug
       Map.put(acc, String.to_atom(skill), get_rank(hiscore, skill))
     end)
-    |> IO.inspect()
   end
 
   def get_rank(hiscore, skill) do
     skill
     |> active_hiscores_query()
-    |> where([h], h.value >= ^hiscore.value and h.rank < ^hiscore.rank)
+    |> sort_by_skill(hiscore, skill)
     |> Repo.aggregate(:count, :id)
     |> Kernel.+(1)
   end
+
+  def sort_by_skill(query, hiscore, "ehp"), do: where(query, [h], h.ehp > ^hiscore.ehp)
+  def sort_by_skill(query, hiscore, _), do: where(query, [h], h.value >= ^hiscore.value and h.rank < ^hiscore.rank)
 
   def hiscore_page_query(skill) do
     from(
@@ -81,7 +85,11 @@ defmodule Combatless.Hiscores do
         current: current_top.value
       }
     )
+    |> order_by_skill(skill)
   end
+
+  def order_by_skill(query, "ehp"), do: order_by(query, [h], [desc: h.ehp, asc: h.rank])
+  def order_by_skill(query, _), do: order_by(query, [h], [desc: h.value, asc: h.rank])
 
   def active_hiscores_query(skill) do
     real_skill = if skill == "ehp", do: "overall", else: skill
@@ -94,6 +102,22 @@ defmodule Combatless.Hiscores do
     )
   end
 
+  def rebuild_hiscores() do
+    Repo.delete_all(Hiscore)
 
+    accounts = get_all_active_accounts()
+        Enum.each(accounts, fn account ->
+      datapoint = Accounts.get_latest_account_datapoint(account)
+      generate_hiscores(datapoint)
+    end)
+  end
 
+  defp get_all_active_accounts() do
+    Repo.all(
+      from(
+        a in Account,
+        where: a.is_combatless == true and a.is_on_hiscores == true and a.is_abandoned == false
+      )
+    )
+  end
 end
