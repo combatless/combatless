@@ -63,6 +63,8 @@ defmodule CombatlessWeb.Router do
   scope "/admin", CombatlessWeb.Admin do
     pipe_through [:browser, :admin]
 
+    get "/", PageController, :index
+
     resources "/datapoints", DatapointController
     resources "/site_users", SiteUserController
   end
