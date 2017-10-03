@@ -62,7 +62,7 @@ defmodule Combatless.Hiscores do
   def get_rank(hiscore, skill) do
     skill
     |> active_hiscores_query()
-    |> where([h], h.value >= ^hiscore.value) # and h.rank < ^hiscore.rank
+    |> where([h], h.value >= ^hiscore.value and h.rank < ^hiscore.rank)
     |> Repo.aggregate(:count, :id)
     |> Kernel.+(1)
   end
