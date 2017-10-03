@@ -68,7 +68,7 @@ defmodule Combatless.Hiscores do
     |> Kernel.+(1)
   end
 
-  def sort_by_skill(query, hiscore, "ehp"), do: where(query, [h], h.ehp > ^hiscore.ehp)
+  def sort_by_skill(query, hiscore, "overall"), do: where(query, [h], h.ehp > ^hiscore.ehp)
   def sort_by_skill(query, hiscore, _), do: where(query, [h], h.value >= ^hiscore.value and h.rank < ^hiscore.rank)
 
   def hiscore_page_query(skill) do
