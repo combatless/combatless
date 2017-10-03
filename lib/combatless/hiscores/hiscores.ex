@@ -37,7 +37,8 @@ defmodule Combatless.Hiscores do
           %{
             account_id: datapoint.account_id,
             skill_id: skill_datapoint.skill_id,
-            value: get_hiscore_value(skill_datapoint)
+            value: get_hiscore_value(skill_datapoint),
+            rank: skill_datapoint.rank
           }
         )
       end
@@ -53,15 +54,15 @@ defmodule Combatless.Hiscores do
     |> Map.get(:hiscores)
     |> Enum.reduce(%{}, fn hiscore, acc ->
       skill = hiscore.skill.slug
-      Map.put(acc, String.to_atom(skill), get_rank(hiscore.value, skill))
+      Map.put(acc, String.to_atom(skill), get_rank(hiscore, skill))
     end)
     |> IO.inspect()
   end
 
-  def get_rank(value, skill) do
+  def get_rank(hiscore, skill) do
     skill
     |> active_hiscores_query()
-    |> where([h], h.value > ^value)
+    |> where([h], h.value >= ^hiscore.value) # and h.rank < ^hiscore.rank
     |> Repo.aggregate(:count, :id)
     |> Kernel.+(1)
   end
@@ -74,7 +75,7 @@ defmodule Combatless.Hiscores do
       on: h.account_id == current_top.account_id,
       preload: [:account],
       order_by: [
-        desc: h.value
+        desc: h.value, asc: h.rank
       ],
       select_merge: %{
         current: current_top.value

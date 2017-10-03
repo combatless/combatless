@@ -10,6 +10,7 @@ defmodule Combatless.Hiscores.Hiscore do
     belongs_to :account, Account
     belongs_to :skill, Skill
     field :value, :float, null: false
+    field :rank, :integer
     field :current, :float, virtual: true
 
     timestamps()
@@ -18,7 +19,7 @@ defmodule Combatless.Hiscores.Hiscore do
   @doc false
   def changeset(%Hiscore{} = hiscore, attrs) do
     hiscore
-    |> cast(attrs, [:account_id, :skill_id, :value])
-    |> validate_required([:account_id, :skill_id, :value])
+    |> cast(attrs, [:account_id, :skill_id, :value, :rank])
+    |> validate_required([:account_id, :skill_id, :value, :rank])
   end
 end
