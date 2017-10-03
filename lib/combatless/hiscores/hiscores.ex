@@ -78,9 +78,6 @@ defmodule Combatless.Hiscores do
       join: current_top in subquery(CurrentTops.current_top_query(skill)),
       on: h.account_id == current_top.account_id,
       preload: [:account],
-      order_by: [
-        desc: h.value, asc: h.rank
-      ],
       select_merge: %{
         current: current_top.value
       }
