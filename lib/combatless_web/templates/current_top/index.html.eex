@@ -6,7 +6,7 @@
 	<h2 class="text-center display-3">
 		<%= if @skill == "ehp", do: "EHP", else: String.capitalize(@skill) %> Current Top
 	</h2>
-	<div class="card text-center hidden-xl-up mb-3 mx-auto" style="width: 250px">
+	<div class="card text-center mb-3 mx-auto current-top-anchors hidden" style="width: 250px">
 		<h4 class="card-header">Period</h4>
 		<div class="card-block">
 			<nav class="nav profile-periods justify-content-around">
@@ -31,3 +31,9 @@
 		</nav>
 	</div>
 </div>
+
+<script>
+	run(function() {
+		require('js/utils').hide_on_flex_wrap('.hiscore-ranks', '.current-top-anchors')
+	});
+</script>
