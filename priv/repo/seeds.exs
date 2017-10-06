@@ -1,5 +1,6 @@
 alias Combatless.Repo
 alias Combatless.Datapoints.Skill
+alias Combatless.Records.TimePeriod
 
 Repo.insert!(%Skill{slug: "overall", name: "Overall"})
 Repo.insert!(%Skill{slug: "attack", name: "Attack"})
@@ -26,3 +27,9 @@ Repo.insert!(%Skill{slug: "runecraft", name: "Runecraft"})
 Repo.insert!(%Skill{slug: "hunter", name: "Hunter"})
 Repo.insert!(%Skill{slug: "construction", name: "Construction"})
 Repo.insert!(%Skill{slug: "ehp", name: "EHP"})
+
+Repo.insert!(%TimePeriod{slug: "log", name: "6 Hours"})
+Repo.insert!(%TimePeriod{slug: "day", name: "Day"})
+Repo.insert!(%TimePeriod{slug: "week", name: "Week"})
+Repo.insert!(%TimePeriod{slug: "month", name: "Month"})
+Repo.insert!(%TimePeriod{slug: "year", name: "Year"})
