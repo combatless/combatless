@@ -41,7 +41,7 @@ defmodule Combatless.Hiscores do
           %{
             account_id: datapoint.account_id,
             skill_id: skill_datapoint.skill_id,
-            value: get_hiscore_value(skill_datapoint),
+            value: skill_datapoint.xp,
             alt_value: skill_datapoint.ehp,
             rank: skill_datapoint.rank
           }
@@ -61,9 +61,6 @@ defmodule Combatless.Hiscores do
       end
     )
   end
-
-  def get_hiscore_value(%SkillDatapoint{skill_id: 1} = skill_datapoint), do: skill_datapoint.virtual_level
-  def get_hiscore_value(%SkillDatapoint{} = skill_datapoint), do: skill_datapoint.xp
 
   def get_ranks(%Account{} = account) do
     account
