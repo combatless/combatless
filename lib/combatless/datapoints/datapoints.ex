@@ -11,6 +11,9 @@ defmodule Combatless.Datapoints do
   alias Combatless.Datapoints.SkillDatapoint
   alias Combatless.OSRS.Hiscores.Hiscore
 
+  @hiscore_skills ~w(overall attack defence strength hitpoints ranged prayer magic cooking woodcutting fletching fishing
+  firemaking crafting smithing mining herblore agility thieving slayer farming runecraft hunter construction)
+
   @doc """
   Returns the list of datapoints.
 
@@ -119,7 +122,9 @@ defmodule Combatless.Datapoints do
 
   """
   def list_skills() do
-    Repo.all(Skill)
+    Skill
+    |> where([s], s.slug in ^@hiscore_skills)
+    |> Repo.all()
   end
 
   def get_unique_account_datapoints() do

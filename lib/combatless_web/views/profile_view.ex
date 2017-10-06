@@ -87,6 +87,7 @@ defmodule CombatlessWeb.ProfileView do
   end
 
   defp get_rank(%Profile{ranks: nil}), do: "?"
+  defp get_rank(%Profile{ranks: ranks}, :overall), do: ranks.ehp
   defp get_rank(%Profile{ranks: ranks}, skill), do: ranks[skill]
 
   defp get_diff(%Profile{has_diff?: false}, _, _), do: content_tag(:span, "0", class: "diff")

@@ -58,24 +58,17 @@ defmodule CombatlessWeb.HiscoreView do
     end
   end
 
-  defp value(hiscore, "ehp"), do: hiscore.ehp
-  defp value(hiscore, _), do: hiscore.value
-  defp alt_value(hiscore, "ehp"), do: hiscore.value
-  defp alt_value(hiscore, _), do: hiscore.ehp
-
   defp hiscore_value(hiscore, skill) do
-    hiscore
-    |> value(skill)
+    hiscore.value
     |> trunc()
     |> Utils.delimit()
   end
 
   defp hiscore_alt_value(hiscore, skill) do
-    hiscore
-    |> alt_value(skill)
+    hiscore.alt_value
     |> trunc()
     |> Utils.delimit()
-    |> Kernel.<> if skill == "ehp", do: " Total Level", else: " EHP"
+    |> Kernel.<> if skill == "ehp", do: " xp", else: " EHP"
   end
 
   def hiscore_size_navs(conn, skill, page_size) do

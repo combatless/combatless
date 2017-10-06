@@ -9,6 +9,7 @@ defmodule Combatless.Hiscores do
   alias Combatless.Accounts
   alias Combatless.Accounts.Account
   alias Combatless.Hiscores.Hiscore
+  alias Combatless.Datapoints.Skill
   alias Combatless.Datapoints.Datapoint
   alias Combatless.Datapoints.SkillDatapoint
 
@@ -31,6 +32,8 @@ defmodule Combatless.Hiscores do
   end
 
   defp do_generate_hiscores(%Datapoint{} = datapoint) do
+    ehp = Repo.get_by(Skill, slug: "ehp")
+
     Enum.each(
       datapoint.skill_datapoints,
       fn skill_datapoint ->
@@ -39,10 +42,22 @@ defmodule Combatless.Hiscores do
             account_id: datapoint.account_id,
             skill_id: skill_datapoint.skill_id,
             value: get_hiscore_value(skill_datapoint),
-            ehp: skill_datapoint.ehp,
+            alt_value: skill_datapoint.ehp,
             rank: skill_datapoint.rank
           }
         )
+
+        if skill_datapoint.skill_id == 1 do
+          upsert_hiscore(
+            %{
+              account_id: datapoint.account_id,
+              skill_id: ehp.id,
+              value: skill_datapoint.ehp,
+              alt_value: skill_datapoint.xp,
+              rank: skill_datapoint.rank
+            }
+          )
+        end
       end
     )
   end
@@ -68,34 +83,31 @@ defmodule Combatless.Hiscores do
     |> Kernel.+(1)
   end
 
-  def sort_by_skill(query, hiscore, "overall"), do: where(query, [h], h.ehp > ^hiscore.ehp)
+  def sort_by_skill(query, hiscore, "ehp"), do: where(query, [h], h.value > ^hiscore.value)
   def sort_by_skill(query, hiscore, _), do: where(query, [h], h.value >= ^hiscore.value and h.rank < ^hiscore.rank)
 
   def hiscore_page_query(skill) do
     from(
       h in active_hiscores_query(skill),
       join: a in assoc(h, :account),
-      join: current_top in subquery(CurrentTops.current_top_query(skill)),
+      left_join: current_top in subquery(CurrentTops.current_top_query(skill)),
       on: h.account_id == current_top.account_id,
       preload: [:account],
       select_merge: %{
-        current: current_top.value
+        current: fragment("coalesce(?, ?)", current_top.value, 0)
       }
     )
     |> order_by_skill(skill)
   end
 
-  def order_by_skill(query, "ehp"), do: order_by(query, [h], [desc: h.ehp, asc: h.rank])
   def order_by_skill(query, _), do: order_by(query, [h], [desc: h.value, asc: h.rank])
 
   def active_hiscores_query(skill) do
-    real_skill = if skill == "ehp", do: "overall", else: skill
-
     from(
       h in Hiscore,
       join: s in assoc(h, :skill),
       join: a in assoc(h, :account),
-      where: s.slug == ^real_skill and a.is_combatless == true and a.is_on_hiscores == true,
+      where: s.slug == ^skill and a.is_combatless == true and a.is_on_hiscores == true,
     )
   end
 
