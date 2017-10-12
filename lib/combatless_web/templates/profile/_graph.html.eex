@@ -1,5 +1,5 @@
 <div class="card text-center mb-3">
-	<h4 class="card-header">Weekly EHP Graph</h4>
+	<h4 class="card-header"><%= @profile.period |> Atom.to_string() |> String.capitalize() %> EHP Graph</h4>
 	<div class="card-block">
 		<canvas id="profile_graph"></canvas>
 	</div>
@@ -7,6 +7,6 @@
 
 <script>
 	run(function () {
-		require('js/graph').default('<%= graph_path(@conn, :ehp, @profile.account.id) %>');
+		require('js/graph').default('<%= graph_path(@conn, :ehp, @profile.account.id, period: @profile.period) %>');
 	})
 </script>

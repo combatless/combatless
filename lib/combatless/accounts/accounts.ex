@@ -249,7 +249,7 @@ defmodule Combatless.Accounts do
     starting_time = if period == :all, do: Timex.epoch(), else: Timex.shift(now, period_to_arbitrary_days(period))
 
     case get_furthest_datapoints(account, now, starting_time) do
-      {nil, nil} -> get_latest_profile_without_period(account, now, starting_time)
+      {nil, nil} -> get_latest_profile_without_period(account, now, starting_time, period)
       {%Datapoint{} = most_recent, %Datapoint{} = least_recent} ->
         most_recent_hiscore = Datapoints.datapoint_to_hiscore(most_recent)
         least_recent_hiscore = Datapoints.datapoint_to_hiscore(least_recent)
@@ -277,7 +277,7 @@ defmodule Combatless.Accounts do
     end
   end
 
-  def get_latest_profile_without_period(account, now, starting_time) do
+  def get_latest_profile_without_period(account, now, starting_time, period) do
     case get_latest_account_datapoint(account) do
       nil ->
         %Profile{
@@ -305,6 +305,7 @@ defmodule Combatless.Accounts do
           hiscores: %{
             most_recent: Datapoints.datapoint_to_hiscore(latest)
           },
+          period: period,
           ranks: Combatless.Hiscores.get_ranks(account)
         }
     end
